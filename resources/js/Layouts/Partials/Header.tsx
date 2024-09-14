@@ -1,48 +1,98 @@
 import { Category } from "@/types/models";
-import { Link, usePage } from "@inertiajs/react";
+import { Link, router, usePage } from "@inertiajs/react";
 
 import {
     NavigationMenu,
     NavigationMenuItem,
     NavigationMenuLink,
     NavigationMenuList,
+    NavigationMenuTrigger,
+    NavigationMenuContent,
     navigationMenuTriggerStyle,
+    ListItem,
 } from "@/Components/ui/navigation-menu";
 import { useLaravelReactI18n } from "laravel-react-i18n";
+import { Button } from "@/Components/ui/button";
 
 const Header = () => {
     const { t } = useLaravelReactI18n();
     const categories = (usePage().props.categories || []) as Category[];
 
     return (
-        <header className="flex justify-between items-end shadow-sm sm:rounded-lg">
+        <header className="flex py-2 h-16 justify-between items-center shadow-sm sm:rounded-lg">
             <div className="basis-4/12">
                 <Link href={route("home")}>Home</Link>
             </div>
 
-            <NavigationMenu className="flex basis-5/12 items-end justify-end">
+            <NavigationMenu className="flex basis-4/12 items-end justify-end">
                 <NavigationMenuList>
-                    {categories.map((category) => (
-                        <NavigationMenuItem
-                            key={category.id}
-                            className="gap-20"
-                        >
-                            <NavigationMenuLink
-                                asChild
-                                className={navigationMenuTriggerStyle()}
-                                active={route().current(
-                                    "category",
-                                    category.name
-                                )}
-                            >
-                                <Link href={route("category", category.name)}>
+                    {categories.map((category) =>
+                        category.sub_categories &&
+                        category.sub_categories.length > 0 ? (
+                            <NavigationMenuItem key={category.id}>
+                                <NavigationMenuTrigger
+                                    onClick={() =>
+                                        router.visit(
+                                            route("category", category)
+                                        )
+                                    }
+                                >
                                     {t(category.name)}
-                                </Link>
-                            </NavigationMenuLink>
-                        </NavigationMenuItem>
-                    ))}
+                                </NavigationMenuTrigger>
+
+                                <NavigationMenuContent>
+                                    <ul className="grid w-[400px] gap-3 p-4">
+                                        {category.sub_categories.map(
+                                            (subCategory) => (
+                                                <Link
+                                                    href={route(
+                                                        "category",
+                                                        subCategory.name
+                                                    )}
+                                                    key={subCategory.id}
+                                                >
+                                                    <ListItem>
+                                                        {t(subCategory.name)}
+                                                    </ListItem>
+                                                </Link>
+                                            )
+                                        )}
+                                    </ul>
+                                </NavigationMenuContent>
+                            </NavigationMenuItem>
+                        ) : (
+                            <NavigationMenuItem
+                                key={category.id}
+                                className="gap-20"
+                            >
+                                <NavigationMenuLink
+                                    asChild
+                                    className={navigationMenuTriggerStyle()}
+                                    active={route().current(
+                                        "category",
+                                        category.name
+                                    )}
+                                >
+                                    <Link
+                                        href={route("category", category.name)}
+                                    >
+                                        {t(category.name)}
+                                    </Link>
+                                </NavigationMenuLink>
+                            </NavigationMenuItem>
+                        )
+                    )}
                 </NavigationMenuList>
             </NavigationMenu>
+
+            <div className="basis-4/12 flex justify-end gap-2">
+                <Button variant="outline" asChild>
+                    <Link href={route("login")}>{t("Log in")}</Link>
+                </Button>
+                <Button asChild>
+                    <Link href={route("register")}>{t("Register")}</Link>
+                </Button>
+            </div>
         </header>
     );
 };

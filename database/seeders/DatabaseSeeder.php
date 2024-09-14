@@ -19,11 +19,19 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
         ]);
 
-        $categories = Category::factory(5)->create();
+        $parentCategories = Category::factory(5)->create();
 
-        Product::factory(10)->create()->each(function (Product $product) use ($categories) {
+        $parentCategories->each(function (Category $parentCategory) {
+            // Each parent category will have 2-3 subcategories
+            Category::factory(rand(1, 5))->create([
+                'parent_id' => $parentCategory->id,
+            ]);
+        });
+
+        $categories = Category::all();
+        Product::factory(50)->create()->each(function (Product $product) use ($categories) {
             $product->categories()->attach(
-                $categories->random()->id
+                $categories->random(rand(1, 5))->pluck('id')->toArray()
             );
         });
     }

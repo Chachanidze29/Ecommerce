@@ -35,7 +35,7 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
-            'categories' => Category::all()
+            'categories' => Category::with(['subCategories', 'parentCategory'])->whereNull('parent_id')->get(),
         ];
     }
 }

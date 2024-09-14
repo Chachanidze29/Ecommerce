@@ -9,8 +9,7 @@ Route::get('/', function () {
     return Inertia::render('Dashboard');
 })->name('home');
 
-Route::get('/category/{name}', [CategoryController::class, 'show'])->name('category');
-
+Route::get('/category/{category:name}', [CategoryController::class, 'show'])->name('category');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
