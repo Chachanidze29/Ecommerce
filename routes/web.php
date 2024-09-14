@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
-    return Inertia::render('Dashboard');
+    return Inertia::render('Home');
 })->name('home');
 
 Route::get('/category/{category:name}', [CategoryController::class, 'show'])->name('category');
@@ -18,3 +18,4 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+require __DIR__.'/admin.php';

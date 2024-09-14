@@ -7,7 +7,7 @@ import { Button } from "@/Components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/Components/ui/card";
 import FormInputText from "@/Components/FormInputs/FormInputText";
 import { Checkbox } from "@/Components/ui/checkbox";
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import MainLayout from "@/Layouts/MainLayout";
 
 export default function Login({
     canResetPassword,
@@ -33,7 +33,7 @@ export default function Login({
     };
 
     return (
-        <AuthenticatedLayout>
+        <MainLayout>
             <Head title={t("Log in")} />
 
             <div className="flex grow items-center justify-center">
@@ -137,6 +137,6 @@ export default function Login({
                     </CardContent>
                 </Card>
             </div>
-        </AuthenticatedLayout>
+        </MainLayout>
     );
 }

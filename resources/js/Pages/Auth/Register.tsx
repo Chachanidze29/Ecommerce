@@ -6,7 +6,7 @@ import { GoogleIcon } from "@/icons/GoogleIcon";
 import { Button } from "@/Components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/Components/ui/card";
 import FormInputText from "@/Components/FormInputs/FormInputText";
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import MainLayout from "@/Layouts/MainLayout";
 
 export default function Register() {
     const { t } = useLaravelReactI18n();
@@ -31,7 +31,7 @@ export default function Register() {
     };
 
     return (
-        <AuthenticatedLayout>
+        <MainLayout>
             <Head title={t("Register")} />
 
             <div className="flex grow items-center justify-center">
@@ -133,6 +133,6 @@ export default function Register() {
                     </CardContent>
                 </Card>
             </div>
-        </AuthenticatedLayout>
+        </MainLayout>
     );
 }

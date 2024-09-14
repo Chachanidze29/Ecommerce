@@ -1,9 +1,9 @@
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Category as CategoryType, Product } from "@/types/models";
 import { Head, Link } from "@inertiajs/react";
 import ProductCard from "@/Components/ProductCard";
 import H1 from "@/Components/Typography/H1";
 import { H3 } from "@/Components/Typography/H3";
+import MainLayout from "@/Layouts/MainLayout";
 
 export default function Category({ category }: { category: CategoryType }) {
     const renderSubLinks =
@@ -12,7 +12,7 @@ export default function Category({ category }: { category: CategoryType }) {
     const renderParent = !!category.parent_category;
 
     return (
-        <AuthenticatedLayout>
+        <MainLayout>
             <Head title={category.name} />
 
             {renderParent && (
@@ -54,6 +54,6 @@ export default function Category({ category }: { category: CategoryType }) {
                     <ProductCard key={product.sku} product={product} />
                 ))}
             </div>
-        </AuthenticatedLayout>
+        </MainLayout>
     );
 }

@@ -15,3 +15,14 @@ export type Product = {
     price?: string;
     image?: string;
 };
+
+export type User = {
+    id: number;
+    first_name: string;
+    last_name: string;
+    email: string;
+    email_verified_at: string;
+    is_admin: boolean;
+    phone_number: string;
+    personal_number: string;
+};

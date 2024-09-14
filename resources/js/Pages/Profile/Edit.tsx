@@ -1,37 +1,28 @@
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import DeleteUserForm from "./Partials/DeleteUserForm";
-import UpdatePasswordForm from "./Partials/UpdatePasswordForm";
-import UpdateProfileInformationForm from "./Partials/UpdateProfileInformationForm";
 import { Head } from "@inertiajs/react";
+import { useLaravelReactI18n } from "laravel-react-i18n";
+
+import DeleteUserForm from "@/Pages/Profile/Partials/DeleteUserForm";
+import UpdatePasswordForm from "@/Pages/Profile/Partials/UpdatePasswordForm";
+import UpdateProfileInformationForm from "@/Pages/Profile/Partials/UpdateProfileInformationForm";
+import { PageProps } from "@/types";
+import MainLayout from "@/Layouts/MainLayout";
 
 export default function Edit({
     mustVerifyEmail,
     status,
-}: {
-    mustVerifyEmail: boolean;
-    status: string;
-}) {
+}: PageProps<{ mustVerifyEmail: boolean; status?: string }>) {
+    const { t } = useLaravelReactI18n();
+
     return (
-        <AuthenticatedLayout>
-            <Head title="Profile" />
+        <MainLayout>
+            <Head title={t("Profile")} />
 
-            <div className="py-12">
-                <div className="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                    <UpdateProfileInformationForm
-                        mustVerifyEmail={mustVerifyEmail}
-                        status={status}
-                        className="max-w-xl"
-                    />
-                </div>
-
-                <div className="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                    <UpdatePasswordForm className="max-w-xl" />
-                </div>
-
-                <div className="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                    <DeleteUserForm className="max-w-xl" />
-                </div>
-            </div>
-        </AuthenticatedLayout>
+            <UpdateProfileInformationForm
+                mustVerifyEmail={mustVerifyEmail}
+                status={status}
+            />
+            <UpdatePasswordForm />
+            <DeleteUserForm />
+        </MainLayout>
     );
 }

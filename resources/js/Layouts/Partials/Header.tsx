@@ -13,10 +13,11 @@ import {
 } from "@/Components/ui/navigation-menu";
 import { useLaravelReactI18n } from "laravel-react-i18n";
 import { Button } from "@/Components/ui/button";
+import { PageProps } from "@/types";
 
 const Header = () => {
     const { t } = useLaravelReactI18n();
-    const categories = (usePage().props.categories || []) as Category[];
+    const { categories, auth } = usePage<PageProps>().props;
 
     return (
         <header className="flex py-2 h-16 justify-between items-center shadow-sm sm:rounded-lg">
@@ -86,12 +87,24 @@ const Header = () => {
             </NavigationMenu>
 
             <div className="basis-4/12 flex justify-end gap-2">
-                <Button variant="outline" asChild>
-                    <Link href={route("login")}>{t("Log in")}</Link>
-                </Button>
-                <Button asChild>
-                    <Link href={route("register")}>{t("Register")}</Link>
-                </Button>
+                {!auth?.user ? (
+                    <>
+                        <Button variant="outline" asChild>
+                            <Link href={route("login")}>{t("Log in")}</Link>
+                        </Button>
+                        <Button asChild>
+                            <Link href={route("register")}>
+                                {t("Register")}
+                            </Link>
+                        </Button>
+                    </>
+                ) : (
+                    <Button asChild>
+                        <Link href={route("logout")} method="post" as="button">
+                            {t("Log Out")}
+                        </Link>
+                    </Button>
+                )}
             </div>
         </header>
     );

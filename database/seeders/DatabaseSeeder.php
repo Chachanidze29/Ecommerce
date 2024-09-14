@@ -22,7 +22,6 @@ class DatabaseSeeder extends Seeder
         $parentCategories = Category::factory(5)->create();
 
         $parentCategories->each(function (Category $parentCategory) {
-            // Each parent category will have 2-3 subcategories
             Category::factory(rand(1, 5))->create([
                 'parent_id' => $parentCategory->id,
             ]);
