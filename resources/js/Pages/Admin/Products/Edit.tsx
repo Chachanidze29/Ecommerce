@@ -11,13 +11,16 @@ import {
 import AdminLayout from "@/Layouts/AdminLayout";
 import { Form } from "@/Pages/Admin/Products/Partials/Form";
 import { FormType, ProductForm } from "@/types/form";
+import { Category } from "@/types/models";
 
 export default function Edit({
     productId,
     product,
+    categories,
 }: {
     productId: number;
     product: ProductForm;
+    categories: Category[];
 }) {
     const { t } = useLaravelReactI18n();
 
@@ -37,6 +40,7 @@ export default function Edit({
                     <Form
                         type={FormType.Create}
                         productId={productId}
+                        categories={categories}
                         initialData={product}
                     />
                 </CardContent>

@@ -9,16 +9,19 @@ import { FormInputTextarea } from "@/Components/FormInputs/FormInputTextarea";
 import { FormType, ProductForm } from "@/types/form";
 import { Switch } from "@/Components/ui/switch";
 import InputLabel from "@/Components/InputLabel";
-import FormInputNumber from "@/Components/FormInputs/FormInputNumber";
+import { Category } from "@/types/models";
+import FormInputMultiSelect from "@/Components/FormInputs/FormInputMultiselect";
 
 export function Form({
     type,
     initialData,
     productId,
+    categories,
 }: {
     type: FormType;
     initialData: ProductForm;
     productId?: number;
+    categories: Category[];
 }) {
     const { t } = useLaravelReactI18n();
     const { data, setData, post, processing, errors } = useForm<ProductForm>({
@@ -96,6 +99,15 @@ export function Form({
                         setData("price", parseFloat(e.target.value))
                     }
                     error={errors.sku}
+                />
+
+                <FormInputMultiSelect
+                    id="categories"
+                    label={t("Categories")}
+                    options={categories}
+                    selectedOptions={data.categories}
+                    onChange={(options) => setData("categories", options)}
+                    error={errors.categories}
                 />
 
                 <FormInputFile

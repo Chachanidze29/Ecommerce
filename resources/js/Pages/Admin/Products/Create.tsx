@@ -11,6 +11,7 @@ import {
 import AdminLayout from "@/Layouts/AdminLayout";
 import { Form } from "@/Pages/Admin/Products/Partials/Form";
 import { FormType } from "@/types/form";
+import { Category } from "@/types/models";
 
 const initialData = {
     name: "",
@@ -19,9 +20,10 @@ const initialData = {
     thumbnail: undefined,
     enabled: true,
     price: null,
+    categories: [],
 };
 
-export default function Create({}: {}) {
+export default function Create({ categories }: { categories: Category[] }) {
     const { t } = useLaravelReactI18n();
 
     return (
@@ -37,7 +39,11 @@ export default function Create({}: {}) {
                 </CardHeader>
 
                 <CardContent className="flex flex-grow flex-col">
-                    <Form type={FormType.Create} initialData={initialData} />
+                    <Form
+                        type={FormType.Create}
+                        categories={categories}
+                        initialData={initialData}
+                    />
                 </CardContent>
             </Card>
         </AdminLayout>
