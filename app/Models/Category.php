@@ -12,7 +12,7 @@ class Category extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'description', 'parent_id'];
+    protected $fillable = ['enabled', 'name', 'description', 'parent_id'];
 
     public function products(): BelongsToMany
     {

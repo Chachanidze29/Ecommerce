@@ -18,6 +18,7 @@ const initialData = {
     description: "",
     parent: null,
     products: [],
+    enabled: true,
 };
 
 export default function Create({

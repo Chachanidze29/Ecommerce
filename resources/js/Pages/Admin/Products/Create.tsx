@@ -17,6 +17,8 @@ const initialData = {
     sku: "",
     description: "",
     thumbnail: undefined,
+    enabled: true,
+    price: null,
 };
 
 export default function Create({}: {}) {

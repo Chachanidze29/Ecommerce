@@ -16,10 +16,12 @@ class ProductFactory extends Factory
     public function definition(): array
     {
         return [
+            'enabled' => true,
             'sku' => $this->faker->unique()->ean8(),
             'name' => $this->faker->word(),
             'description' => $this->faker->sentence(),
             'price' => $this->faker->randomFloat(2, 5, 100),
+            'thumbnail' => $this->faker->imageUrl()
         ];
     }
 }

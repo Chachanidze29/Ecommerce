@@ -9,6 +9,8 @@ import { FormType, CategoryForm } from "@/types/form";
 import FormInputMultiSelect from "@/Components/FormInputs/FormInputMultiselect";
 import { Category, Product } from "@/types/models";
 import FormInputSelect from "@/Components/FormInputs/FormInputSelect";
+import { Switch } from "@/Components/ui/switch";
+import InputLabel from "@/Components/InputLabel";
 
 export function Form({
     type,
@@ -50,6 +52,14 @@ export function Form({
 
     return (
         <form onSubmit={handleSubmit} className="flex flex-grow flex-col gap-6">
+            <div className="flex gap-2 items-center">
+                <InputLabel value="Enable Category" />
+                <Switch
+                    checked={data.enabled}
+                    onCheckedChange={(value) => setData("enabled", value)}
+                />
+            </div>
+
             <div className="grid items-start gap-4 sm:grid-cols-2">
                 <FormInputText
                     id="name"

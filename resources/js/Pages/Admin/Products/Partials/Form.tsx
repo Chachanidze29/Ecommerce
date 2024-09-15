@@ -7,6 +7,9 @@ import { FormInputFile } from "@/Components/FormInputs/FormInputFile";
 import { FormInputText } from "@/Components/FormInputs/FormInputText";
 import { FormInputTextarea } from "@/Components/FormInputs/FormInputTextarea";
 import { FormType, ProductForm } from "@/types/form";
+import { Switch } from "@/Components/ui/switch";
+import InputLabel from "@/Components/InputLabel";
+import FormInputNumber from "@/Components/FormInputs/FormInputNumber";
 
 export function Form({
     type,
@@ -50,6 +53,13 @@ export function Form({
 
     return (
         <form onSubmit={handleSubmit} className="flex flex-grow flex-col gap-6">
+            <div className="flex gap-2 items-center">
+                <InputLabel value="Enable Product" />
+                <Switch
+                    checked={data.enabled}
+                    onCheckedChange={(value) => setData("enabled", value)}
+                />
+            </div>
             <div className="grid items-start gap-4 sm:grid-cols-2">
                 <FormInputText
                     id="name"
@@ -74,6 +84,17 @@ export function Form({
                     label={t("SKU")}
                     value={data.sku}
                     onChange={(e) => setData("sku", e.target.value)}
+                    error={errors.sku}
+                />
+
+                <FormInputText
+                    id="price"
+                    type="text"
+                    label={t("Price")}
+                    value={String(data.price || 0.0)}
+                    onChange={(e) =>
+                        setData("price", parseFloat(e.target.value))
+                    }
                     error={errors.sku}
                 />
 
