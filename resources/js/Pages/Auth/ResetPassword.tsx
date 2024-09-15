@@ -1,10 +1,10 @@
-import GuestLayout from "@/Layouts/GuestLayout";
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
 import { Head, useForm } from "@inertiajs/react";
 import { FormEventHandler } from "react";
+import MainLayout from "@/Layouts/MainLayout";
 
 export default function ResetPassword({
     token,
@@ -29,7 +29,7 @@ export default function ResetPassword({
     };
 
     return (
-        <GuestLayout>
+        <MainLayout>
             <Head title="Reset Password" />
 
             <form onSubmit={submit}>
@@ -96,6 +96,6 @@ export default function ResetPassword({
                     </PrimaryButton>
                 </div>
             </form>
-        </GuestLayout>
+        </MainLayout>
     );
 }

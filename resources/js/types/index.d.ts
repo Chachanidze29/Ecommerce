@@ -12,3 +12,14 @@ export type PageProps<
         error: string;
     };
 };
+
+export type MenuItem = {
+    name: string;
+    url: string;
+    children?: MenuItem[];
+};
+
+export type SelectOption = {
+    name: string;
+    value: string;
+};

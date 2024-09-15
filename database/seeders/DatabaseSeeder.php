@@ -2,10 +2,12 @@
 
 namespace Database\Seeders;
 
+use App\Enums\RolesEnum;
 use App\Models\User;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -16,8 +18,15 @@ class DatabaseSeeder extends Seeder
     {
         User::factory()->create([
             'name' => 'Test User',
+            'email' => 'dev@example.com',
+            'password' => Hash::make('dev')
+        ])->assignRole(RolesEnum::SUPERADMIN);
+
+        User::factory()->create([
+            'name' => 'Test User',
             'email' => 'test@example.com',
-        ]);
+            'password' => Hash::make('dev')
+        ])->assignRole(RolesEnum::MEMBER);
 
         $parentCategories = Category::factory(5)->create();
 

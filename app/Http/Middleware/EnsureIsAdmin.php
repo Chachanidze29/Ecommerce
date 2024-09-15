@@ -17,11 +17,11 @@ class EnsureIsAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!$request->user()->isAdmin()) {
-            return $request->expectsJson()
-                ? abort(403)
-                : redirect('home');
-        }
+//        if (!$request->user()->isAdmin()) {
+//            return $request->expectsJson()
+//                ? abort(403)
+//                : redirect('home');
+//        }
 
         return $next($request);
     }
