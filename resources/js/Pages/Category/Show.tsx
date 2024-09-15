@@ -4,6 +4,14 @@ import ProductCard from "@/Components/ProductCard";
 import H1 from "@/Components/Typography/H1";
 import { H3 } from "@/Components/Typography/H3";
 import MainLayout from "@/Layouts/MainLayout";
+import {
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    BreadcrumbList,
+    BreadcrumbPage,
+    BreadcrumbSeparator,
+} from "@/Components/ui/breadcrumb";
 
 export default function Category({ category }: { category: CategoryType }) {
     const renderSubLinks =
@@ -16,16 +24,38 @@ export default function Category({ category }: { category: CategoryType }) {
             <Head title={category.name} />
 
             {renderParent && (
-                <nav className="text-sm mb-4">
-                    <Link
-                        href={route("category", category.parent_category)}
-                        className="border-b-2 border-transparent hover:border-b-blue-300 transition duration-300"
-                    >
-                        {category.parent_category.name}
-                    </Link>
-                    <span className="mx-2 text-gray-500">{">"}</span>
-                    <span>{category.name}</span>
-                </nav>
+                <Breadcrumb>
+                    <BreadcrumbList>
+                        <BreadcrumbItem>
+                            <Link href={route("home")}>
+                                <BreadcrumbLink>Home</BreadcrumbLink>
+                            </Link>
+                        </BreadcrumbItem>
+                        <BreadcrumbSeparator />
+                        <BreadcrumbItem>
+                            <Link href={route("home")}>
+                                <BreadcrumbLink>Catalog</BreadcrumbLink>
+                            </Link>
+                        </BreadcrumbItem>
+                        <BreadcrumbSeparator />
+                        <BreadcrumbItem>
+                            <Link
+                                href={route(
+                                    "category",
+                                    category.parent_category
+                                )}
+                            >
+                                <BreadcrumbLink>
+                                    {category.parent_category.name}
+                                </BreadcrumbLink>
+                            </Link>
+                        </BreadcrumbItem>
+                        <BreadcrumbSeparator />
+                        <BreadcrumbItem>
+                            <BreadcrumbPage>{category.name}</BreadcrumbPage>
+                        </BreadcrumbItem>
+                    </BreadcrumbList>
+                </Breadcrumb>
             )}
 
             <div className="bg-main p-5 rounded text-white">
