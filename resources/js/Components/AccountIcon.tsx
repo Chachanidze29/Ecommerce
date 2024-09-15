@@ -44,7 +44,7 @@ const AccountIcon = ({ user }: { user: User }) => {
                                 </Link>
                             </Button>
                             <Button asChild>
-                                <Link href={route("logout")}>
+                                <Link method="post" href={route("logout")}>
                                     {t("Log out")}
                                 </Link>
                             </Button>
