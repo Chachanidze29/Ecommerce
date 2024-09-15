@@ -20,6 +20,6 @@ export type MenuItem = {
 };
 
 export type SelectOption = {
+    id: number;
     name: string;
-    value: string;
 };

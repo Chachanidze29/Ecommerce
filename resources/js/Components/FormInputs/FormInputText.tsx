@@ -1,7 +1,7 @@
 import { forwardRef } from "react";
 
+import { Input } from "@/Components/ui/input";
 import InputError from "@/Components/InputError";
-import TextInput from "@/Components/TextInput";
 import InputLabel from "@/Components/InputLabel";
 
 interface TextFormInputProps {
@@ -34,7 +34,7 @@ export const FormInputText = forwardRef<HTMLInputElement, TextFormInputProps>(
         return (
             <div className={`grid gap-2 ${className || ""}`}>
                 <InputLabel htmlFor={id} value={label} />
-                <TextInput
+                <Input
                     type={type}
                     value={value}
                     onChange={onChange}

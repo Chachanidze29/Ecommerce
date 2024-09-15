@@ -1,4 +1,4 @@
-import { Link, usePage } from "@inertiajs/react";
+import { Link, router, usePage } from "@inertiajs/react";
 import { useLaravelReactI18n } from "laravel-react-i18n";
 import { MoreHorizontalIcon } from "lucide-react";
 import { useState } from "react";
@@ -31,6 +31,13 @@ export function Actions({ product }: { product: Product }) {
     const {
         auth: { user },
     } = usePage<PageProps>().props;
+
+    const handleDelete = () => {
+        router.delete(route("admin.products.destroy", product.id), {
+            preserveScroll: true,
+            onSuccess: () => setIsDeleteDialogOpen(false),
+        });
+    };
 
     return (
         <DropdownMenu modal={false}>
@@ -84,17 +91,9 @@ export function Actions({ product }: { product: Product }) {
                     <AlertDialogFooter>
                         <AlertDialogCancel>{t("Cancel")}</AlertDialogCancel>
                         <AlertDialogAction asChild>
-                            <Link
-                                href={route(
-                                    "admin.products.destroy",
-                                    product.id
-                                )}
-                                as="button"
-                                method="delete"
-                                preserveScroll
-                            >
+                            <Button onClick={handleDelete}>
                                 {t("Delete")}
-                            </Link>
+                            </Button>
                         </AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>

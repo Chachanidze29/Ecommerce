@@ -14,4 +14,21 @@ class ProductController extends Controller
             'products' => $products
         ]);
     }
+
+    public function create() {
+        return Inertia::render('Admin/Products/Create');
+    }
+
+    public function edit(Product $product) {
+        return Inertia::render('Admin/Products/Edit', [
+            'product' => $product,
+            'product_id' => $product->id,
+        ]);
+    }
+
+    public function destroy(Product $product) {
+        $product->delete();
+
+        return redirect()->back();
+    }
 }
