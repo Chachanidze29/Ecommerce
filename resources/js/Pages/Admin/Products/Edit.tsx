@@ -38,7 +38,7 @@ export default function Edit({
 
                 <CardContent className="flex flex-grow flex-col">
                     <Form
-                        type={FormType.Create}
+                        type={FormType.Edit}
                         productId={productId}
                         categories={categories}
                         initialData={product}

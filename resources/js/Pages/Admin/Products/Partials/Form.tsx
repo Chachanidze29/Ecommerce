@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Link, useForm } from "@inertiajs/react";
 import { useLaravelReactI18n } from "laravel-react-i18n";
 import { FormEventHandler } from "react";
@@ -27,9 +26,8 @@ export function Form({
     const { t } = useLaravelReactI18n();
     const { data, setData, post, processing, errors } = useForm<ProductForm>({
         ...initialData,
+        enabled: true,
     });
-
-    const [preview, setPreview] = useState<string | null>(null);
 
     const handleSubmit: FormEventHandler = (e) => {
         e.preventDefault();
@@ -50,7 +48,6 @@ export function Form({
         if (e.target.files && e.target.files.length > 0) {
             const file = e.target.files[0];
             setData("thumbnail", file);
-            setPreview(URL.createObjectURL(file));
         }
     };
 
@@ -121,7 +118,12 @@ export function Form({
                     label={t("Thumbnail")}
                     onChange={handleFileChange}
                     error={errors.thumbnail}
-                    preview={preview}
+                    preview={
+                        typeof data.thumbnail === "string"
+                            ? data.thumbnail
+                            : data.thumbnail &&
+                              URL.createObjectURL(data.thumbnail)
+                    }
                 />
             </div>
 

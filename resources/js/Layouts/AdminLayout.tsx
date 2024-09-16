@@ -15,11 +15,11 @@ export default function AdminLayout({ children }: PropsWithChildren) {
     return (
         <div className="mx-auto flex min-h-screen flex-col h-full">
             {(success || error) && (
-                <div className="container">
-                    <Alert variant={error ? "destructive" : "success"}>
-                        <AlertTitle>{t(success || error)}</AlertTitle>
-                    </Alert>
-                </div>
+                <Alert variant={error ? "destructive" : "success"}>
+                    <AlertTitle className="text-center text-bold">
+                        {t(success || error)}
+                    </AlertTitle>
+                </Alert>
             )}
 
             <div className="flex flex-row gap-10">

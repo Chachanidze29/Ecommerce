@@ -4,7 +4,7 @@ import InputError from "@/Components/InputError";
 import Label from "@/Components/InputLabel";
 import { Button } from "@/Components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/Components/ui/dialog";
-import { DialogTitle } from "@radix-ui/react-dialog";
+import { DialogDescription, DialogTitle } from "@radix-ui/react-dialog";
 
 interface FileFormInputProps {
     id: string;
@@ -12,7 +12,7 @@ interface FileFormInputProps {
     label: string;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     error?: string;
-    preview: string | null;
+    preview?: string;
 }
 
 export const FormInputFile = ({
@@ -35,12 +35,13 @@ export const FormInputFile = ({
             {preview && (
                 <div className="flex flex-col items-start gap-2">
                     <Dialog>
-                        <DialogTitle>Image Preview</DialogTitle>
                         <DialogTrigger asChild>
                             <Button>Open Preview</Button>
                         </DialogTrigger>
 
                         <DialogContent className="p-8">
+                            <DialogTitle>View Preview</DialogTitle>
+                            <DialogDescription>Here</DialogDescription>
                             <div className="relative">
                                 <img
                                     src={preview || ""}
