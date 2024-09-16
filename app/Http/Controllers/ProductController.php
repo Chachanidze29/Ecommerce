@@ -7,6 +7,8 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Services\ProductService;
 use Exception;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
@@ -71,5 +73,22 @@ class ProductController extends Controller
         $product->delete();
 
         return redirect()->back();
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return RedirectResponse
+     */
+    public function massDestroy(Request $request): RedirectResponse
+    {
+        Product::whereIn('id', $request->ids)->delete();
+
+        return redirect()
+            ->route('admin.products.index')
+            ->with('success', __(
+                ':count product(s) deleted successfully!',
+                ['count' => count($request->ids)]
+            ));
     }
 }

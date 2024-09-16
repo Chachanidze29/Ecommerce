@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class CategoryController extends Controller
@@ -43,5 +45,22 @@ class CategoryController extends Controller
         $category->delete();
 
         return redirect()->back();
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return RedirectResponse
+     */
+    public function massDestroy(Request $request): RedirectResponse
+    {
+        Category::whereIn('id', $request->ids)->delete();
+
+        return redirect()
+            ->route('admin.categories.index')
+            ->with('success', __(
+                ':count category(s) deleted successfully!',
+                ['count' => count($request->ids)]
+            ));
     }
 }
