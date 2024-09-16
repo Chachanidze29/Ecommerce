@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { FormType } from "@/types/form";
 import { Input } from "@/Components/ui/input";
 import InputError from "@/Components/InputError";
@@ -24,8 +23,6 @@ export const FormInputFile = ({
     error,
     preview,
 }: FileFormInputProps) => {
-    const [isZoomed, setIsZoomed] = useState(false);
-
     return (
         <div className="grid gap-2">
             <Label htmlFor={id} value={label} />
@@ -37,7 +34,7 @@ export const FormInputFile = ({
             />
             {preview && (
                 <div className="flex flex-col items-start gap-2">
-                    <Dialog open={isZoomed} onOpenChange={setIsZoomed}>
+                    <Dialog>
                         <DialogTitle>Image Preview</DialogTitle>
                         <DialogTrigger asChild>
                             <Button>Open Preview</Button>
