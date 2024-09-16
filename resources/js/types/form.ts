@@ -7,7 +7,7 @@ export type CategoryForm = {
     enabled: boolean;
     name: string;
     description: string | null;
-    parent: number | null;
+    parent_category: number | null;
     products: number[];
 };
 

@@ -28,7 +28,11 @@ class CategoryController extends Controller
 
     public function edit(Category $category) {
         return Inertia::render('Admin/Categories/Edit', [
-            'category' => $category,
+            'category' => [
+                ...$category->toArray(),
+                'products' => $category->products->pluck('id'),
+                'parent_category' => $category->parentCategory()->pluck('id')
+            ],
             'category_id' => $category->id,
             'categories' => Category::whereNull('parent_id')->get(),
             'products' => Product::all()

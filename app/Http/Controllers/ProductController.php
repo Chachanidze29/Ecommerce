@@ -26,7 +26,10 @@ class ProductController extends Controller
         $product->load('categories');
 
         return Inertia::render('Admin/Products/Edit', [
-            'product' => $product,
+            'product' => [
+                ...$product->toArray(),
+                'categories' => $product->categories->pluck('id'),
+            ],
             'product_id' => $product->id,
             'categories' => Category::whereNull('parent_id')->get(),
         ]);

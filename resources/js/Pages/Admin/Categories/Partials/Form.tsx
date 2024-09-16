@@ -81,15 +81,15 @@ export function Form({
                 <FormInputSelect
                     label={t("Parent category")}
                     placeholder={t("Select a parent category")}
-                    value={data.parent?.toString() || ""}
+                    value={data.parent_category?.toString() || ""}
                     options={categories}
                     onChange={(value) => {
                         const category = categories.find(
                             (category) => category.id === parseInt(value)
                         );
-                        setData("parent", category?.id || null);
+                        setData("parent_category", category?.id || null);
                     }}
-                    error={errors.parent}
+                    error={errors.parent_category}
                 />
 
                 <FormInputMultiSelect

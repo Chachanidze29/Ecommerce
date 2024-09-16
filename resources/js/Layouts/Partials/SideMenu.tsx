@@ -53,12 +53,12 @@ const menuItems: MenuItem[] = [
         children: [
             {
                 name: "Cart Price Rules",
-                url: "",
+                url: "cumcum",
                 // route("admin.content.home")
             },
             {
                 name: "Coupons",
-                url: "",
+                url: "dumcum",
                 // route("admin.content.plp")
             },
         ],
@@ -69,7 +69,7 @@ const menuItems: MenuItem[] = [
         children: [
             {
                 name: "Configuration",
-                url: "",
+                url: "dumdum",
                 // url: route("admin.content.home")
             },
         ],
