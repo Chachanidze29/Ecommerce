@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreProductRequest extends FormRequest
+class StoreCategoryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,12 +24,10 @@ class StoreProductRequest extends FormRequest
     {
         return [
             'enabled' => 'required|boolean',
-            'categories' => 'required|array',
-            'name' => 'required|string|max:255',
-            'sku' => 'nullable|string|max:500',
+            'name' => 'required|string|max:255|unique:categories,name',
             'description' => 'nullable|string|max:500',
-            'thumbnail' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'price' => 'nullable|numeric',
+            'parent_category' => 'nullable|numeric',
+            'products' => 'required|array',
         ];
     }
 }

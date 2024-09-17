@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\UpdateProductRequest;
 use App\Models\Category;
 use App\Models\Product;
 use App\Services\ProductService;
@@ -67,6 +68,28 @@ class ProductController extends Controller
             'product_id' => $product->id,
             'categories' => Category::whereNull('parent_id')->get(),
         ]);
+    }
+
+    public function update(UpdateProductRequest $request, Product $product) {
+        try {
+            $validatedData = $request->validated();
+
+            if ($request->hasFile('thumbnail')) {
+                $validatedData['thumbnail'] = $request->file('thumbnail');
+            }
+
+            $this->productService->update($validatedData, $product->id);
+
+            return redirect()
+                ->route('admin.products.index', $product->id)
+                ->with('success', __('Product updated successfully!'));
+        } catch (Exception $e) {
+            Log::error($e);
+
+            return redirect()
+                ->back()
+                ->with('error', __('Failed to update the product. Please try again.'));
+        }
     }
 
     public function destroy(Product $product) {

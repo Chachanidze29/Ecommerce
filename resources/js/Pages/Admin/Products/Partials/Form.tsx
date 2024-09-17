@@ -15,18 +15,17 @@ import FormInputMultiSelect from "@/Components/FormInputs/FormInputMultiselect";
 export function Form({
     type,
     initialData,
-    productId,
     categories,
 }: {
     type: FormType;
     initialData: ProductForm;
-    productId?: number;
     categories: Category[];
 }) {
     const { t } = useLaravelReactI18n();
     const { data, setData, post, processing, errors } = useForm<ProductForm>({
         ...initialData,
         enabled: true,
+        thumbnail: undefined,
     });
 
     const handleSubmit: FormEventHandler = (e) => {
@@ -37,7 +36,7 @@ export function Form({
                 post(route("admin.products.store"));
                 break;
             case FormType.Edit:
-                post(route("admin.products.update", productId));
+                post(route("admin.products.update", data.id));
                 break;
             default:
                 break;

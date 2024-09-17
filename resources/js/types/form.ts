@@ -4,6 +4,7 @@ export enum FormType {
 }
 
 export type CategoryForm = {
+    id: number;
     enabled: boolean;
     name: string;
     description: string | null;
@@ -12,6 +13,7 @@ export type CategoryForm = {
 };
 
 export type ProductForm = {
+    id: number;
     enabled: boolean;
     name: string;
     sku: string;

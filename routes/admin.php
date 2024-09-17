@@ -12,7 +12,8 @@ Route::prefix('admin')
     ->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::resource('products', ProductController::class);
+    Route::resource('products', ProductController::class)->except(['update']);
+    Route::post('products/{product}', [ProductController::class, 'update'])->name('products.update');
     Route::post('products/massDelete', [ProductController::class, 'massDestroy'])
         ->name('products.massDelete');
 

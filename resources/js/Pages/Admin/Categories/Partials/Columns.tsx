@@ -46,14 +46,6 @@ export const columns: ColumnDef<Category>[] = [
         },
     },
     {
-        accessorKey: "created_at",
-        header: ({ column }) => <DataTableColumnHeader column={column} />,
-        cell: ({ row }) => {
-            const date = row.getValue("created_at") as string;
-            return new Date(date).toLocaleDateString();
-        },
-    },
-    {
         accessorKey: "parent_category",
         header: ({ column }) => <DataTableColumnHeader column={column} />,
         cell: ({ row }) => {
@@ -73,6 +65,14 @@ export const columns: ColumnDef<Category>[] = [
     {
         accessorKey: "products_count",
         header: ({ column }) => <DataTableColumnHeader column={column} />,
+    },
+    {
+        accessorKey: "created_at",
+        header: ({ column }) => <DataTableColumnHeader column={column} />,
+        cell: ({ row }) => {
+            const date = row.getValue("created_at") as string;
+            return new Date(date).toLocaleDateString();
+        },
     },
     {
         id: "actions",

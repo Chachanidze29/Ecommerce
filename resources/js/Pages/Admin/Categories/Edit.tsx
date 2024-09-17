@@ -16,12 +16,10 @@ import { Category, Product } from "@/types/models";
 export default function Edit({
     categories,
     products,
-    categoryId,
     category,
 }: {
     categories: Category[];
     products: Product[];
-    categoryId: number;
     category: CategoryForm;
 }) {
     const { t } = useLaravelReactI18n();
@@ -40,8 +38,7 @@ export default function Edit({
 
                 <CardContent className="flex flex-grow flex-col">
                     <Form
-                        type={FormType.Create}
-                        categoryId={categoryId}
+                        type={FormType.Edit}
                         initialData={category}
                         categories={categories}
                         products={products}

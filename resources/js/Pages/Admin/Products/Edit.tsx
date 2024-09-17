@@ -14,11 +14,9 @@ import { FormType, ProductForm } from "@/types/form";
 import { Category } from "@/types/models";
 
 export default function Edit({
-    productId,
     product,
     categories,
 }: {
-    productId: number;
     product: ProductForm;
     categories: Category[];
 }) {
@@ -39,7 +37,6 @@ export default function Edit({
                 <CardContent className="flex flex-grow flex-col">
                     <Form
                         type={FormType.Edit}
-                        productId={productId}
                         categories={categories}
                         initialData={product}
                     />

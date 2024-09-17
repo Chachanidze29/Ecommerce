@@ -15,20 +15,19 @@ import InputLabel from "@/Components/InputLabel";
 export function Form({
     type,
     initialData,
-    categoryId,
     categories,
     products,
 }: {
     type: FormType;
     initialData: CategoryForm;
-    categoryId?: number;
     categories: Category[];
     products: Product[];
 }) {
     const { t } = useLaravelReactI18n();
-    const { data, setData, post, processing, errors } = useForm<CategoryForm>({
-        ...initialData,
-    });
+    const { data, setData, post, put, processing, errors } =
+        useForm<CategoryForm>({
+            ...initialData,
+        });
 
     const handleSubmit: FormEventHandler = (e) => {
         e.preventDefault();
@@ -38,12 +37,14 @@ export function Form({
                 post(route("admin.categories.store"));
                 break;
             case FormType.Edit:
-                post(route("admin.categories.update", categoryId));
+                put(route("admin.categories.update", data.id));
                 break;
             default:
                 break;
         }
     };
+
+    console.log("AAAAAA", data);
 
     const submitButtonText = {
         [FormType.Create]: "Add",
@@ -104,7 +105,7 @@ export function Form({
 
             <div className="flex flex-grow items-end justify-between">
                 <Button variant="ghost" asChild>
-                    <Link href={route("admin.products.index")}>
+                    <Link href={route("admin.categories.index")}>
                         {t("Back")}
                     </Link>
                 </Button>
