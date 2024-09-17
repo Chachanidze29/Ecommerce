@@ -12,6 +12,7 @@ import InputLabel from "@/Components/InputLabel";
 import { Category } from "@/types/models";
 import FormInputMultiSelect from "@/Components/FormInputs/FormInputMultiselect";
 import ImagePreview from "@/Components/ImagePreview";
+import { Cross2Icon } from "@radix-ui/react-icons";
 
 export function Form({
     type,
@@ -56,10 +57,30 @@ export function Form({
         }
     };
 
+    const handleRemoveImage = (index: number) => {
+        if (data.images) {
+            const updatedImages = [...data.images];
+            updatedImages.splice(index, 1);
+
+            if (updatedImages.every((item) => typeof item === "string")) {
+                setData("images", updatedImages as string[]);
+            } else if (updatedImages.every((item) => item instanceof File)) {
+                setData("images", updatedImages as File[]);
+            }
+        }
+    };
+
     const submitButtonText = {
         [FormType.Create]: "Add",
         [FormType.Edit]: "Save",
     }[type];
+
+    const getImageUrl = (image?: File | string) => {
+        if (!image) return "";
+        return typeof image === "string"
+            ? "/storage/" + image
+            : image && URL.createObjectURL(image);
+    };
 
     return (
         <form onSubmit={handleSubmit} className="flex flex-grow flex-col gap-6">
@@ -123,12 +144,7 @@ export function Form({
                     label={t("Thumbnail")}
                     onChange={handleFileChange}
                     error={errors.thumbnail}
-                    preview={
-                        typeof data.thumbnail === "string"
-                            ? "/storage/" + data.thumbnail
-                            : data.thumbnail &&
-                              URL.createObjectURL(data.thumbnail)
-                    }
+                    preview={getImageUrl(data.thumbnail)}
                 />
 
                 <FormInputFile
@@ -136,22 +152,28 @@ export function Form({
                     type={type}
                     label={t("Gallery Images")}
                     onChange={handleFilesChange}
-                    error={errors.thumbnail}
+                    error={errors.images}
                     multiple
                 />
             </div>
 
             <div className="flex gap-2 flex-wrap">
                 {data.images &&
-                    data.images.map((preview) => (
-                        <ImagePreview
-                            preview={
-                                typeof preview === "string"
-                                    ? "/storage/" + preview
-                                    : preview && URL.createObjectURL(preview)
-                            }
-                        />
-                    ))}
+                    data.images.map((preview, index) => {
+                        const imgSrc = getImageUrl(preview);
+                        return (
+                            <div
+                                className="flex flex-col items-end"
+                                key={index}
+                            >
+                                <Cross2Icon
+                                    onClick={() => handleRemoveImage(index)}
+                                    className="mb-1 cursor-pointer hover:bg-red-300"
+                                />
+                                <ImagePreview preview={imgSrc} />
+                            </div>
+                        );
+                    })}
             </div>
 
             <div className="flex flex-grow items-end justify-between">
