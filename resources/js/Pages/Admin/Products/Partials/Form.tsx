@@ -31,7 +31,6 @@ export function Form({
 
     const handleSubmit: FormEventHandler = (e) => {
         e.preventDefault();
-
         switch (type) {
             case FormType.Create:
                 post(route("admin.products.store"));
@@ -53,7 +52,10 @@ export function Form({
 
     const handleFilesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files.length > 0) {
-            setData("images", Array.from(e.target.files));
+            setData("images", [
+                ...Array.from(e.target.files),
+                ...(data.images || []),
+            ]);
         }
     };
 
@@ -61,12 +63,7 @@ export function Form({
         if (data.images) {
             const updatedImages = [...data.images];
             updatedImages.splice(index, 1);
-
-            if (updatedImages.every((item) => typeof item === "string")) {
-                setData("images", updatedImages as string[]);
-            } else if (updatedImages.every((item) => item instanceof File)) {
-                setData("images", updatedImages as File[]);
-            }
+            setData("images", updatedImages);
         }
     };
 

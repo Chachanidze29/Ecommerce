@@ -35,6 +35,7 @@ class ProductService
         return DB::transaction(function () use ($data, $id) {
             $product = Product::findOrFail($id);
 
+            // Handle thumbnail
             if (array_key_exists('thumbnail', $data) && $data['thumbnail'] instanceof UploadedFile) {
                 $path = $data['thumbnail']->store('products', 'public');
                 $data['thumbnail'] = $path;
@@ -47,19 +48,38 @@ class ProductService
             }
 
             if (isset($data['images']) && is_array($data['images'])) {
-                foreach ($product->images as $image) {
-                    if (!in_array($image->path, $data['images']))
-                    Storage::disk('public')->delete($image->path);
-                    $image->delete();
-                }
+                $existingImages = $product->images->pluck('path')->toArray();
+
+                $newImagePaths = [];
+                $newImages = [];
+
                 foreach ($data['images'] as $image) {
                     if (is_file($image)) {
                         $path = $image->store('products', 'public');
-                        $product->images()->create(['path' => $path]);
+                        $newImagePaths[] = $path;
+                        $newImages[] = [
+                            'path' => $path,
+                            'alt_text' => $product->name
+                        ];
                     } else {
-                        $product->images()->create(['path' => $image]);
+                        $newImagePaths[] = $image;
+                        $newImages[] = [
+                            'path' => $image,
+                            'alt_text' => $product->name
+                        ];
                     }
                 }
+
+                $imagesToDelete = array_diff($existingImages, $newImagePaths);
+
+                foreach ($imagesToDelete as $oldImagePath) {
+                    Storage::disk('public')->delete($oldImagePath);
+
+                    $product->images()->where('path', $oldImagePath)->delete();
+                }
+
+                $product->images()->delete();
+                $product->images()->createMany($newImages);
             }
 
             return $product;

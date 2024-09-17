@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('images', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id');
-            $table->string('path');
+            $table->string('path')->unique();
             $table->string('alt_text')->nullable();
             $table->timestamps();
         });

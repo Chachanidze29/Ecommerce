@@ -85,10 +85,6 @@ class ProductController extends Controller
                 $validatedData['thumbnail'] = $request->file('thumbnail');
             }
 
-            if ($request->hasFile('images')) {
-                $validatedData['images'] = $request->file('images');
-            }
-
             $this->productService->update($validatedData, $product->id);
 
             return redirect()
