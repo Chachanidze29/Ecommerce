@@ -25,7 +25,6 @@ export function Form({
     const { data, setData, post, processing, errors } = useForm<ProductForm>({
         ...initialData,
         enabled: true,
-        thumbnail: undefined,
     });
 
     const handleSubmit: FormEventHandler = (e) => {
@@ -119,7 +118,7 @@ export function Form({
                     error={errors.thumbnail}
                     preview={
                         typeof data.thumbnail === "string"
-                            ? data.thumbnail
+                            ? "/storage/" + data.thumbnail
                             : data.thumbnail &&
                               URL.createObjectURL(data.thumbnail)
                     }

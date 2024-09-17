@@ -63,7 +63,6 @@ class CategoryController extends Controller
                 'products' => $category->products->pluck('id'),
                 'parent_category' => $category->parentCategory()->value('id')
             ],
-            'category_id' => $category->id,
             'categories' => Category::whereNull('parent_id')->get(),
             'products' => Product::all()
         ]);

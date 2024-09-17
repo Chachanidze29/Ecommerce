@@ -44,8 +44,6 @@ export function Form({
         }
     };
 
-    console.log("AAAAAA", data);
-
     const submitButtonText = {
         [FormType.Create]: "Add",
         [FormType.Edit]: "Save",

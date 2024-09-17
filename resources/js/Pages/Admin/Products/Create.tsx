@@ -14,6 +14,7 @@ import { FormType } from "@/types/form";
 import { Category } from "@/types/models";
 
 const initialData = {
+    id: 0,
     name: "",
     sku: "",
     description: "",

@@ -14,9 +14,10 @@ import { FormType } from "@/types/form";
 import { Category, Product } from "@/types/models";
 
 const initialData = {
+    id: 0,
     name: "",
     description: "",
-    parent: null,
+    parent_category: null,
     products: [],
     enabled: true,
 };

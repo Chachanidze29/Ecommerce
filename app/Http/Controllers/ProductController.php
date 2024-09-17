@@ -21,10 +21,8 @@ class ProductController extends Controller
     ) {}
 
     public function index() {
-        $products = Product::with('categories')->orderBy('created_at', 'desc')->get();
-
         return Inertia::render('Admin/Products/Index', [
-            'products' => $products
+            'products' => Product::with('categories')->orderBy('created_at', 'desc')->get()
         ]);
     }
 
@@ -63,9 +61,8 @@ class ProductController extends Controller
             'product' => [
                 ...$product->toArray(),
                 'categories' => $product->categories->pluck('id'),
-                'thumbnail' => Storage::disk('public')->url($product->thumbnail),
+                'thumbnail' => $product->thumbnail,
             ],
-            'product_id' => $product->id,
             'categories' => Category::whereNull('parent_id')->get(),
         ]);
     }

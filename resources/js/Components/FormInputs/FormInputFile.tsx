@@ -2,7 +2,6 @@ import { FormType } from "@/types/form";
 import { Input } from "@/Components/ui/input";
 import InputError from "@/Components/InputError";
 import Label from "@/Components/InputLabel";
-import { Button } from "@/Components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/Components/ui/dialog";
 import { DialogDescription, DialogTitle } from "@radix-ui/react-dialog";
 
@@ -33,25 +32,26 @@ export const FormInputFile = ({
                 onChange={onChange}
             />
             {preview && (
-                <div className="flex flex-col items-start gap-2">
-                    <Dialog>
-                        <DialogTrigger asChild>
-                            <Button>Open Preview</Button>
-                        </DialogTrigger>
+                <Dialog>
+                    <DialogTrigger asChild>
+                        <img
+                            src={preview || ""}
+                            className="object-cover rounded-lg w-32 h-32 cursor-pointer transform transition-transform duration-300 hover:scale-110"
+                        />
+                    </DialogTrigger>
 
-                        <DialogContent className="p-8">
-                            <DialogTitle>View Preview</DialogTitle>
-                            <DialogDescription>Here</DialogDescription>
-                            <div className="relative">
-                                <img
-                                    src={preview || ""}
-                                    alt="Zoomed Preview"
-                                    className="object-cover rounded-lg max-w-full max-h-full"
-                                />
-                            </div>
-                        </DialogContent>
-                    </Dialog>
-                </div>
+                    <DialogContent className="p-8">
+                        <DialogTitle>View Preview</DialogTitle>
+                        <DialogDescription>Here</DialogDescription>
+                        <div className="relative">
+                            <img
+                                src={preview || ""}
+                                alt="Zoomed Preview"
+                                className="object-cover rounded-lg max-w-full max-h-full"
+                            />
+                        </div>
+                    </DialogContent>
+                </Dialog>
             )}
             {error && <InputError message={error} />}
         </div>
