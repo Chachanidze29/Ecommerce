@@ -29,6 +29,8 @@ class StoreProductRequest extends FormRequest
             'sku' => 'nullable|string|max:500',
             'description' => 'nullable|string|max:500',
             'thumbnail' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'images' => 'array',
+            'images.*' => 'image|mimes:jpeg,png,jpg|max:2048',
             'price' => 'nullable|numeric',
         ];
     }

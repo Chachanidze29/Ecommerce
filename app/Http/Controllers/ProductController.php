@@ -40,6 +40,10 @@ class ProductController extends Controller
                 $validatedData['thumbnail'] = $request->file('thumbnail');
             }
 
+            if ($request->hasFile('images')) {
+                $validatedData['images'] = $request->file('images');
+            }
+
             $this->productService->create($validatedData);
 
             return redirect()
@@ -55,13 +59,19 @@ class ProductController extends Controller
     }
 
     public function edit(Product $product) {
-        $product->load('categories');
+        $product->load([
+            'categories',
+            'images' => function ($query) {
+                $query->select('path', 'product_id');
+            }
+        ]);
 
         return Inertia::render('Admin/Products/Edit', [
             'product' => [
                 ...$product->toArray(),
                 'categories' => $product->categories->pluck('id'),
                 'thumbnail' => $product->thumbnail,
+                'images' => $product->images->pluck('path'), // Return only image paths
             ],
             'categories' => Category::whereNull('parent_id')->get(),
         ]);
@@ -73,6 +83,10 @@ class ProductController extends Controller
 
             if ($request->hasFile('thumbnail')) {
                 $validatedData['thumbnail'] = $request->file('thumbnail');
+            }
+
+            if ($request->hasFile('images')) {
+                $validatedData['images'] = $request->file('images');
             }
 
             $this->productService->update($validatedData, $product->id);

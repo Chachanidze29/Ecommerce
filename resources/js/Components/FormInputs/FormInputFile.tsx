@@ -2,8 +2,7 @@ import { FormType } from "@/types/form";
 import { Input } from "@/Components/ui/input";
 import InputError from "@/Components/InputError";
 import Label from "@/Components/InputLabel";
-import { Dialog, DialogContent, DialogTrigger } from "@/Components/ui/dialog";
-import { DialogDescription, DialogTitle } from "@radix-ui/react-dialog";
+import ImagePreview from "@/Components/ImagePreview";
 
 interface FileFormInputProps {
     id: string;
@@ -12,6 +11,7 @@ interface FileFormInputProps {
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     error?: string;
     preview?: string;
+    multiple?: boolean;
 }
 
 export const FormInputFile = ({
@@ -21,6 +21,8 @@ export const FormInputFile = ({
     onChange,
     error,
     preview,
+    multiple,
+    ...props
 }: FileFormInputProps) => {
     return (
         <div className="grid gap-2">
@@ -30,29 +32,10 @@ export const FormInputFile = ({
                 name="image"
                 required={type === FormType.Edit ? false : true}
                 onChange={onChange}
+                multiple={multiple}
+                {...props}
             />
-            {preview && (
-                <Dialog>
-                    <DialogTrigger asChild>
-                        <img
-                            src={preview || ""}
-                            className="object-cover rounded-lg w-32 h-32 cursor-pointer transform transition-transform duration-300 hover:scale-110"
-                        />
-                    </DialogTrigger>
-
-                    <DialogContent className="p-8">
-                        <DialogTitle>View Preview</DialogTitle>
-                        <DialogDescription>Here</DialogDescription>
-                        <div className="relative">
-                            <img
-                                src={preview || ""}
-                                alt="Zoomed Preview"
-                                className="object-cover rounded-lg max-w-full max-h-full"
-                            />
-                        </div>
-                    </DialogContent>
-                </Dialog>
-            )}
+            {preview && <ImagePreview preview={preview} />}
             {error && <InputError message={error} />}
         </div>
     );

@@ -16,9 +16,15 @@ class ProductService
                 $data['thumbnail'] = $path;
             }
 
-            $product =  Product::create($data);
-
+            $product = Product::create($data);
             $product->categories()->sync($data['categories']);
+
+            if (isset($data['images']) && is_array($data['images'])) {
+                foreach ($data['images'] as $image) {
+                    $path = $image->store('products', 'public');
+                    $product->images()->create(['path' => $path]);
+                }
+            }
 
             return $product;
         });
@@ -37,6 +43,13 @@ class ProductService
 
             if (array_key_exists('categories', $data)) {
                 $product->categories()->sync($data['categories']);
+            }
+
+            if (isset($data['images']) && is_array($data['images'])) {
+                foreach ($data['images'] as $image) {
+                    $path = $image->store('products', 'public');
+                    $product->images()->create(['path' => $path]);
+                }
             }
 
             return $product;

@@ -11,6 +11,7 @@ import { Switch } from "@/Components/ui/switch";
 import InputLabel from "@/Components/InputLabel";
 import { Category } from "@/types/models";
 import FormInputMultiSelect from "@/Components/FormInputs/FormInputMultiselect";
+import ImagePreview from "@/Components/ImagePreview";
 
 export function Form({
     type,
@@ -46,6 +47,12 @@ export function Form({
         if (e.target.files && e.target.files.length > 0) {
             const file = e.target.files[0];
             setData("thumbnail", file);
+        }
+    };
+
+    const handleFilesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files.length > 0) {
+            setData("images", Array.from(e.target.files));
         }
     };
 
@@ -123,6 +130,28 @@ export function Form({
                               URL.createObjectURL(data.thumbnail)
                     }
                 />
+
+                <FormInputFile
+                    id="gallery"
+                    type={type}
+                    label={t("Gallery Images")}
+                    onChange={handleFilesChange}
+                    error={errors.thumbnail}
+                    multiple
+                />
+            </div>
+
+            <div className="flex gap-2 flex-wrap">
+                {data.images &&
+                    data.images.map((preview) => (
+                        <ImagePreview
+                            preview={
+                                typeof preview === "string"
+                                    ? "/storage/" + preview
+                                    : preview && URL.createObjectURL(preview)
+                            }
+                        />
+                    ))}
             </div>
 
             <div className="flex flex-grow items-end justify-between">

@@ -77,7 +77,7 @@ const menuItems: MenuItem[] = [
 ];
 
 export const SideMenu = () => (
-    <div className="h-screen bg-gray-200 flex flex-col gap-4 p-10 py-3">
+    <div className="bg-gray-200 flex flex-col gap-4 p-10 py-3">
         {menuItems.map((menuItem) => {
             return menuItem.children ? (
                 <Sheet key={menuItem.name}>
