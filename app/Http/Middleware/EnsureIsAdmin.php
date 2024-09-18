@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Providers\AppServiceProvider;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,11 +18,11 @@ class EnsureIsAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-//        if (!$request->user()->isAdmin()) {
-//            return $request->expectsJson()
-//                ? abort(403)
-//                : redirect('home');
-//        }
+        if (!$request->user()->isAdmin()) {
+            return $request->expectsJson()
+                ? abort(403)
+                : redirect(AppServiceProvider::HOME);
+        }
 
         return $next($request);
     }

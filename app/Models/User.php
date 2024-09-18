@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\RolesEnum;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
@@ -50,5 +51,10 @@ class User extends Authenticatable
     public function isAdmin(): bool
     {
         return $this->hasRole(RolesEnum::SUPERADMIN) || $this->hasRole(RolesEnum::ADMIN);
+    }
+
+    public function carts(): HasMany
+    {
+        return $this->hasMany(Cart::class);
     }
 }

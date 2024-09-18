@@ -26,3 +26,18 @@ export type User = {
     phone_number: string;
     personal_number: string;
 };
+
+export type Cart = {
+    id: number;
+    customer?: User;
+    session_id?: string;
+    items: CartItem[];
+    items_sum_quantity: number;
+};
+
+export type CartItem = {
+    cart: Cart;
+    product: Product;
+    quantity: number;
+    price: number;
+};

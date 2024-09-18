@@ -1,4 +1,4 @@
-import { Category, User } from "@/types/models";
+import { Cart, Category, User } from "@/types/models";
 
 export type PageProps<
     T extends Record<string, unknown> = Record<string, unknown>
@@ -11,6 +11,7 @@ export type PageProps<
         success: string;
         error: string;
     };
+    cart: Cart;
 };
 
 export type MenuItem = {

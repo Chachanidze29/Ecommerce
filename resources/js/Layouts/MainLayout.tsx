@@ -1,3 +1,4 @@
+import { Toaster } from "@/Components/ui/toaster";
 import Header from "@/Layouts/Partials/Header";
 import { PropsWithChildren } from "react";
 
@@ -9,6 +10,8 @@ export default function MainLayout({ children }: PropsWithChildren) {
             <main className="flex flex-grow flex-col gap-8 py-8">
                 {children}
             </main>
+
+            <Toaster />
         </div>
     );
 }
