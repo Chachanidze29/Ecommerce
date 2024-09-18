@@ -7,6 +7,7 @@ import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { LaravelReactI18nProvider } from "laravel-react-i18n";
 
 const appName = import.meta.env.VITE_APP_NAME || "Laravel";
+const appLocale = import.meta.env.VITE_APP_LOCALE || "en";
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,

@@ -33,9 +33,11 @@ export type Cart = {
     session_id?: string;
     items: CartItem[];
     items_sum_quantity: number;
+    subtotal: number;
 };
 
 export type CartItem = {
+    id: number;
     cart: Cart;
     product: Product;
     quantity: number;

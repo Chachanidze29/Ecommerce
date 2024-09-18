@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Providers\AppServiceProvider;
 use App\Services\CartService;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
@@ -16,7 +18,7 @@ class ShoppingCartController extends Controller
 
     public function show(Cart $cart) {
         return Inertia::render('Cart', [
-            'cart' => $cart
+            'cart' => $this->cartService->getOrCreateCart()
         ]);
     }
 
@@ -41,10 +43,22 @@ class ShoppingCartController extends Controller
                 $cart->items()->create($validated);
                 return redirect()->back()->with('success', "Product successfully added to cart");
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::error($e->getMessage());
 
             return redirect()->back()->with('error', 'Error saving item to cart');
         }
+    }
+
+    public function destroy(Request $request, Cart $cart) {
+        try {
+            $this->cartService->clearCart($cart);
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            return redirect()->back()->with('error', 'Error deleting cart');
+        }
+
+
+        return redirect(AppServiceProvider::HOME)->with('success', 'Cart deleted successfully');
     }
 }
