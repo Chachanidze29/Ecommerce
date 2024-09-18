@@ -31,6 +31,12 @@ class CategoryController extends Controller
         ]);
     }
 
+    public function show(Category $category) {
+        return Inertia::render('Admin/Categories/Show', [
+            'category' => $category->load(['products', 'products.categories'])
+        ]);
+    }
+
     public function create() {
         return Inertia::render('Admin/Categories/Create', [
             'categories' => Category::whereNull('parent_id')->get(),
