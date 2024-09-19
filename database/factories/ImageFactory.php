@@ -6,7 +6,7 @@ use App\Models\Image;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<\App\Models\Image>
+ * @extends Factory<Image>
  */
 class ImageFactory extends Factory
 {
@@ -20,9 +20,8 @@ class ImageFactory extends Factory
     public function definition(): array
     {
         return [
-            'url' => $this->faker->imageUrl(),
-            'alt_text' => $this->faker->sentence(),
-            'product_id' => null,
+            'path' => $this->faker->imageUrl(),
+            'alt_text' => $this->faker->word(),
         ];
     }
 }

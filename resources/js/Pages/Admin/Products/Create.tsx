@@ -18,7 +18,6 @@ const initialData = {
     name: "",
     sku: "",
     description: "",
-    thumbnail: undefined,
     enabled: true,
     price: null,
     categories: [],

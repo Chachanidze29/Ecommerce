@@ -1,13 +1,13 @@
 import ProductDetails from "@/Components/ProductDetails";
-import AdminLayout from "@/Layouts/AdminLayout";
+import MainLayout from "@/Layouts/MainLayout";
 import { Product } from "@/types/models";
 import { Head } from "@inertiajs/react";
 
 export default function Show({ product }: { product: Product }) {
     return (
-        <AdminLayout>
+        <MainLayout>
             <Head title={product.name} />
             <ProductDetails product={product} />
-        </AdminLayout>
+        </MainLayout>
     );
 }

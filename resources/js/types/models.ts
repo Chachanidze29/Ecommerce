@@ -13,7 +13,8 @@ export type Product = {
     name: string;
     description?: string;
     price?: string;
-    thumbnail?: string;
+    category: Category;
+    images: Image[];
 };
 
 export type User = {
@@ -42,4 +43,11 @@ export type CartItem = {
     product: Product;
     quantity: number;
     price: number;
+};
+
+export type Image = {
+    id: number;
+    path: string;
+    alt_text: string;
+    product: Product;
 };

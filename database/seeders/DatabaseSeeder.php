@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Enums\RolesEnum;
+use App\Models\Image;
 use App\Models\User;
 use App\Models\Category;
 use App\Models\Product;
@@ -16,6 +17,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // Create Users and assign roles
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'dev@example.com',
@@ -37,10 +39,15 @@ class DatabaseSeeder extends Seeder
         });
 
         $categories = Category::all();
+
         Product::factory(50)->create()->each(function (Product $product) use ($categories) {
             $product->categories()->attach(
                 $categories->random(rand(1, 5))->pluck('id')->toArray()
             );
+
+            Image::factory(rand(1, 3))->create([
+                'product_id' => $product->id,
+            ]);
         });
     }
 }

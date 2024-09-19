@@ -18,7 +18,6 @@ export type ProductForm = {
     name: string;
     sku: string;
     description: string | null;
-    thumbnail?: File | string;
     images?: (File | string)[];
     price: number | null;
     categories: number[];

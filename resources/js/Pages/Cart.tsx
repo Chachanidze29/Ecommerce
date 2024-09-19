@@ -30,7 +30,6 @@ export const Cart = ({ cart }: { cart: CartType }) => {
             >
                 <div className="flex items-center">
                     <img
-                        src={"/storage/" + item.product.thumbnail}
                         alt={item.product.name}
                         className="w-20 h-20 object-cover rounded-md mr-4"
                     />

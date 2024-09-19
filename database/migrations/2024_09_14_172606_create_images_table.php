@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('product_id');
             $table->string('path')->unique();
             $table->string('alt_text')->nullable();
+            $table->enum('type', ['thumbnail', 'hover', 'gallery']);
             $table->timestamps();
         });
     }

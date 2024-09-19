@@ -22,7 +22,7 @@ export default function AdminLayout({ children }: PropsWithChildren) {
                 </Alert>
             )}
 
-            <div className="flex flex-row gap-10">
+            <div className="flex flex-row gap-2">
                 <SideMenu />
 
                 <main className="flex flex-grow flex-col gap-8 m-5 mt-2">

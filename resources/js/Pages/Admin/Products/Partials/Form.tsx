@@ -43,13 +43,6 @@ export function Form({
         }
     };
 
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files && e.target.files.length > 0) {
-            const file = e.target.files[0];
-            setData("thumbnail", file);
-        }
-    };
-
     const handleFilesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files.length > 0) {
             setData("images", [
@@ -133,15 +126,6 @@ export function Form({
                     selectedOptions={data.categories}
                     onChange={(options) => setData("categories", options)}
                     error={errors.categories}
-                />
-
-                <FormInputFile
-                    id="thumbnail"
-                    type={type}
-                    label={t("Thumbnail")}
-                    onChange={handleFileChange}
-                    error={errors.thumbnail}
-                    preview={getImageUrl(data.thumbnail)}
                 />
 
                 <FormInputFile

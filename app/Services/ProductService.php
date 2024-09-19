@@ -12,11 +12,6 @@ class ProductService
     public function create(array $data): Product
     {
         return DB::transaction(function () use ($data) {
-            if (isset($data['thumbnail']) && $data['thumbnail'] instanceof UploadedFile) {
-                $path = $data['thumbnail']->store('products', 'public');
-                $data['thumbnail'] = $path;
-            }
-
             $product = Product::create($data);
             $product->categories()->sync($data['categories']);
 
@@ -34,12 +29,6 @@ class ProductService
     public function update(array $data, string $id): Product {
         return DB::transaction(function () use ($data, $id) {
             $product = Product::findOrFail($id);
-
-            // Handle thumbnail
-            if (array_key_exists('thumbnail', $data) && $data['thumbnail'] instanceof UploadedFile) {
-                $path = $data['thumbnail']->store('products', 'public');
-                $data['thumbnail'] = $path;
-            }
 
             $product->update($data);
 
