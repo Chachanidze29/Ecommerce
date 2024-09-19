@@ -12,7 +12,7 @@ export type Product = {
     sku: string;
     name: string;
     description?: string;
-    price?: string;
+    price?: number;
     category: Category;
     images: Image[];
 };

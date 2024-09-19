@@ -3,6 +3,7 @@ import { Cart as CartType, CartItem } from "@/types/models";
 import { Button } from "@/Components/ui/button";
 import { Head, Link, router } from "@inertiajs/react";
 import { MouseEventHandler } from "react";
+import ItemQtyButtons from "@/Components/ItemQtyButtons";
 
 export const Cart = ({ cart }: { cart: CartType }) => {
     const handleClearCart: MouseEventHandler = (e) => {
@@ -40,22 +41,12 @@ export const Cart = ({ cart }: { cart: CartType }) => {
                         <p className="text-gray-600">${item.price}</p>
                     </div>
                 </div>
-                <div className="flex items-center">
-                    <p className="mr-4">Quantity: {item.quantity}</p>
-                    <Button
-                        variant="outline"
-                        className="mr-2"
-                        onClick={() => handleDecrement(item.id)}
-                    >
-                        -
-                    </Button>
-                    <Button
-                        variant="outline"
-                        className="mr-2"
-                        onClick={() => handleIncrement(item.id)}
-                    >
-                        +
-                    </Button>
+                <div className="flex items-center gap-2">
+                    <ItemQtyButtons
+                        quantity={item.quantity}
+                        handleIncrement={() => handleIncrement(item.id)}
+                        handleDecrement={() => handleDecrement(item.id)}
+                    />
                     <Button
                         variant="destructive"
                         onClick={() => handleRemove(item.id)}

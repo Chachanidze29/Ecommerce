@@ -4,10 +4,14 @@ import { Progress } from "@/Components/ui/progress";
 import { Product } from "@/types/models";
 import { ArrowBigLeft, ArrowBigRight } from "lucide-react";
 import { useState } from "react";
+import ItemQtyButtons from "@/Components/ItemQtyButtons";
+import AddToCartButton from "@/Components/AddToCartButton";
 
 export default function ProductDetails({ product }: { product: Product }) {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [fade, setFade] = useState(true);
+
+    const [quantity, setQuantity] = useState(1);
 
     const handleImageClick = (index: number) => {
         setFade(false);
@@ -88,6 +92,25 @@ export default function ProductDetails({ product }: { product: Product }) {
                     <H1>{product.name}</H1>
                     <H3>{product.price}</H3>
                     <p>{product.description}</p>
+                    <div className="flex justify-between items-center mt-2">
+                        <ItemQtyButtons
+                            quantity={quantity}
+                            handleIncrement={() => {
+                                setQuantity((prevQty) => prevQty + 1);
+                            }}
+                            handleDecrement={() => {
+                                setQuantity((prevQty) => prevQty - 1);
+                            }}
+                        />
+                        <AddToCartButton
+                            className="basis-3/4"
+                            item={{
+                                id: product.id,
+                                quantity: quantity,
+                                price: product.price ?? 0.0,
+                            }}
+                        />
+                    </div>
                 </div>
             </div>
         </div>
