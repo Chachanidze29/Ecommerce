@@ -66,7 +66,7 @@ export const columns: ColumnDef<Product>[] = [
                                 key={category.id}
                                 href={route(
                                     "admin.categories.show",
-                                    row.original.id
+                                    category.id
                                 )}
                                 className="font-medium hover:underline"
                             >

@@ -6,6 +6,7 @@ import { columns } from "@/Pages/Admin/Products/Partials/Columns";
 import { Card, CardContent } from "@/Components/ui/card";
 import { useLaravelReactI18n } from "laravel-react-i18n";
 import H1 from "@/Components/Typography/H1";
+import { H3 } from "@/Components/Typography/H3";
 
 export default function Show({ category }: { category: Category }) {
     const { t } = useLaravelReactI18n();
@@ -16,16 +17,16 @@ export default function Show({ category }: { category: Category }) {
             <Card className="flex flex-grow flex-col">
                 <CardContent className="flex flex-grow flex-col m-1">
                     <section>
-                        <H1>{t("Name")}</H1>
+                        <H3>{t("Name")}</H3>
                         <p>{category.name}</p>
                     </section>
 
                     <section>
-                        <H1>{t("Description")}</H1>
+                        <H3>{t("Description")}</H3>
                         <p>{category.description}</p>
                     </section>
                     <section className="flex flex-grow flex-col">
-                        <H1>{t("Products")}</H1>
+                        <H3>{t("Products")}</H3>
                         <DataTable
                             data={category.products}
                             columns={columns}

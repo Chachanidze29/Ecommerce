@@ -10,7 +10,7 @@ export function H3({ className, children }: PropsWithChildren<H3Props>) {
     return (
         <h3
             className={cn(
-                "mb-6 scroll-m-20 text-xl font-semibold tracking-tight",
+                "my-2 scroll-m-20 text-xl font-semibold tracking-tight",
                 className
             )}
         >

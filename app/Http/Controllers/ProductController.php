@@ -26,6 +26,12 @@ class ProductController extends Controller
         ]);
     }
 
+    public function show(Product $product) {
+        return Inertia::render('Admin/Products/Show', [
+            'product' => $product
+        ]);
+    }
+
     public function create() {
         return Inertia::render('Admin/Products/Create', [
             'categories' => Category::whereNull('parent_id')->get(),
