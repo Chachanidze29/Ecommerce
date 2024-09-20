@@ -12,59 +12,60 @@ class ProductService
     {
         return DB::transaction(function () use ($data) {
             $product = Product::create($data);
-            $product->categories()->sync($data['categories']);
 
-            foreach ($data['images'] as $image) {
-                $file = $image['path'];
-                $path = $file->store('products', 'public');
-                $image['path'] = $path;
-                $product->images()->create($image);
+            $product->categories()->sync($data['categories']);
+            $this->syncImages($product, $data['images']);
+
+            return $product;
+        });
+    }
+
+    public function update(array $data, string $id): Product
+    {
+        return DB::transaction(function () use ($data, $id) {
+            $product = Product::findOrFail($id);
+
+            $product->update($data);
+
+            if (isset($data['categories'])) {
+                $product->categories()->sync($data['categories']);
+            }
+
+            if (isset($data['images'])) {
+                $this->syncImages($product, $data['images'], true);
             }
 
             return $product;
         });
     }
 
-    public function update(array $data, string $id): Product {
-        return DB::transaction(function () use ($data, $id) {
-            $product = Product::findOrFail($id);
+    protected function syncImages(Product $product, array $images, bool $isUpdate = false): void
+    {
+        if ($isUpdate) {
+            $this->deleteOldImages($product, $images);
+        }
 
-            $product->update($data);
-
-            if (array_key_exists('categories', $data)) {
-                $product->categories()->sync($data['categories']);
+        $newImages = array_map(function ($image) {
+            if (is_file($image['path'])) {
+                $image['path'] = $image['path']->store('products', 'public');
             }
+            return $image;
+        }, $images);
 
-            if (isset($data['images']) && is_array($data['images'])) {
-                $existingImages = $product->images->pluck('path')->toArray();
+        $product->images()->delete();
+        $product->images()->createMany($newImages);
+    }
 
-                $newImagePaths = [];
-                $newImages = [];
+    protected function deleteOldImages(Product $product, array $newImages): void
+    {
+        $existingPaths = $product->images->pluck('path')->toArray();
+        $newPaths = array_column($newImages, 'path');
 
-                foreach ($data['images'] as $image) {
-                    $imgPath = $image['path'];
-                    if (is_file($imgPath)) {
-                        $path = $imgPath->store('products', 'public');
-                        $image['path'] = $path;
-                        $newImagePaths[] = $path;
-                    } else {
-                        $newImagePaths[] = $imgPath;
-                    }
-                    $newImages[] = $image;
-                }
-                $imagesToDelete = array_diff($existingImages, $newImagePaths);
+        $pathsToDelete = array_diff($existingPaths, $newPaths);
 
-                foreach ($imagesToDelete as $oldImagePath) {
-                    Storage::disk('public')->delete($oldImagePath);
-
-                    $product->images()->where('path', $oldImagePath)->delete();
-                }
-
-                $product->images()->delete();
-                $product->images()->createMany($newImages);
-            }
-
-            return $product;
-        });
+        foreach ($pathsToDelete as $path) {
+            Storage::disk('public')->delete($path);
+            $product->images()->where('path', $path)->delete();
+        }
     }
 }

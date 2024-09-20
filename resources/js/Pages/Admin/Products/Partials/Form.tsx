@@ -96,8 +96,6 @@ export function Form({
             : image && URL.createObjectURL(image);
     };
 
-    console.log("AAAAAA", errors.images);
-
     return (
         <form onSubmit={handleSubmit} className="flex flex-grow flex-col gap-6">
             <div className="flex gap-2 items-center">

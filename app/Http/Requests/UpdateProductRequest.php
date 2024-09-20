@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\UploadedFile;
 
 class UpdateProductRequest extends FormRequest
 {
@@ -28,15 +29,40 @@ class UpdateProductRequest extends FormRequest
             'name' => 'string|max:255',
             'sku' => 'nullable|string|max:500,unique:products,sku',
             'description' => 'nullable|string|max:500',
-            'images' => 'array',
+            'images' => [
+                'array',
+                function ($attribute, $value, $fail) {
+                    $hoverCount = 0;
+                    $thumbnailCount = 0;
+
+                    foreach ($value as $image) {
+                        if ($image['type'] === 'Hover') {
+                            $hoverCount++;
+                        }
+
+                        if ($image['type'] === 'Thumbnail') {
+                            $thumbnailCount++;
+                        }
+                    }
+
+                    if ($hoverCount !== 1) {
+                        return $fail("There should be one image with type 'Hover'.");
+                    }
+
+                    if ($thumbnailCount !== 1) {
+                        return $fail("There should be one image with type 'Thumbnail'.");
+                    }
+                }
+            ],
             'images.*' => [
                 'nullable',
                 function ($attribute, $value, $fail) {
-                    if (!is_string($value['path']) && !is_file($value['path'])) {
-                        return $fail('The '.$attribute.' must be either a valid image or a string representing the image path.');
+                    $path = $value['path'];
+                    if (!is_string($path) && !is_file($path)) {
+                        return $fail('The ' . $attribute . ' must be either a valid image or a string representing the image path.');
                     }
-                    if (is_file($value['path'])) {
-                        if (!$value->isValid() || !in_array($value->getClientOriginalExtension(), ['jpeg', 'png', 'jpg'])) {
+                    if (is_file($path)) {
+                        if (!$path->isValid() || !in_array($path->getClientOriginalExtension(), ['jpeg', 'png', 'jpg'])) {
                             return $fail('The ' . $attribute . ' must be a valid image file of type jpeg, png, or jpg.');
                         }
                     }
