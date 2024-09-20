@@ -50,4 +50,11 @@ export type Image = {
     path: string;
     alt_text: string;
     product: Product;
+    type: ImageType;
 };
+
+export enum ImageType {
+    Thumbnail = "Thumbnail",
+    Hover = "Hover",
+    Gallery = "Gallery",
+}

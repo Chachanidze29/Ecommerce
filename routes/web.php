@@ -12,8 +12,8 @@ Route::get('/', function () {
     return Inertia::render('Home');
 })->name('home');
 
-Route::get('/category/{category:name}', [CategoryController::class, 'show'])->name('category');
-Route::get('/product/{product}', [ProductController::class, 'show'])->name('product.show');
+Route::get('/categories/{category:name}', [CategoryController::class, 'show'])->name('category');
+Route::get('/products/{product}', [ProductController::class, 'show'])->name('product.show');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

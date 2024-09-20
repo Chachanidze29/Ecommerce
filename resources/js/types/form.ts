@@ -1,3 +1,5 @@
+import { Image } from "./models";
+
 export enum FormType {
     Create,
     Edit,
@@ -18,19 +20,7 @@ export type ProductForm = {
     name: string;
     sku: string;
     description: string | null;
-    images?: ImageData[];
+    images?: Image[];
     price: number | null;
     categories: number[];
 };
-
-export type ImageData = {
-    path: File | string;
-    type: ImageType;
-    alt_text: string;
-};
-
-export enum ImageType {
-    Thumbnail = "Thumbnail",
-    Hover = "Hover",
-    Gallery = "Gallery",
-}

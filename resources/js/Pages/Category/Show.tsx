@@ -6,7 +6,13 @@ import { H3 } from "@/Components/Typography/H3";
 import MainLayout from "@/Layouts/MainLayout";
 import CategoryBreadCrumbs from "@/Pages/Category/Partials/Breadcrumbs";
 
-export default function Category({ category }: { category: CategoryType }) {
+export default function Category({
+    category,
+    products,
+}: {
+    category: CategoryType;
+    products: Product[];
+}) {
     const renderSubLinks =
         category.sub_categories && category.sub_categories.length > 0;
 
@@ -38,7 +44,7 @@ export default function Category({ category }: { category: CategoryType }) {
             )}
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-2">
-                {category.products.map((product: Product) => (
+                {products.map((product: Product) => (
                     <ProductCard key={product.sku} product={product} />
                 ))}
             </div>

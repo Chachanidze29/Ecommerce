@@ -45,8 +45,19 @@ class DatabaseSeeder extends Seeder
                 $categories->random(rand(1, 5))->pluck('id')->toArray()
             );
 
-            Image::factory(rand(1, 2))->create([
+            $thumbnailPath = 'images/products/' . uniqid() . '_thumbnail.jpg';
+            $hoverPath = 'images/products/' . uniqid() . '_hover.jpg';
+
+            Image::factory()->create([
                 'product_id' => $product->id,
+                'path' => $thumbnailPath,
+                'type' => 'Thumbnail',
+            ]);
+
+            Image::factory()->create([
+                'product_id' => $product->id,
+                'path' => $hoverPath,
+                'type' => 'Hover',
             ]);
         });
     }
