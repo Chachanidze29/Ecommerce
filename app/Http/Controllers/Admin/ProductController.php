@@ -20,25 +20,29 @@ class ProductController extends Controller
         protected ProductService $productService
     ) {}
 
-    public function index() {
+    public function index()
+    {
         return Inertia::render('Admin/Products/Index', [
             'products' => Product::with('categories')->orderBy('created_at', 'desc')->get()
         ]);
     }
 
-    public function show(Product $product) {
+    public function show(Product $product)
+    {
         return Inertia::render('Admin/Products/Show', [
             'product' => $product->load('images')
         ]);
     }
 
-    public function create() {
+    public function create()
+    {
         return Inertia::render('Admin/Products/Create', [
             'categories' => Category::whereNull('parent_id')->get(),
         ]);
     }
 
-    public function store(StoreProductRequest $request) {
+    public function store(StoreProductRequest $request)
+    {
         try {
             $validatedData = $request->validated();
 
@@ -60,11 +64,12 @@ class ProductController extends Controller
         }
     }
 
-    public function edit(Product $product) {
+    public function edit(Product $product)
+    {
         $product->load([
             'categories',
             'images' => function ($query) {
-                $query->select('path', 'product_id');
+                $query->select('path', 'type', 'product_id');
             }
         ]);
 
@@ -72,13 +77,14 @@ class ProductController extends Controller
             'product' => [
                 ...$product->toArray(),
                 'categories' => $product->categories->pluck('id'),
-                'images' => $product->images->pluck('path'), // Return only image paths
+                'images' => $product->images,
             ],
             'categories' => Category::whereNull('parent_id')->get(),
         ]);
     }
 
-    public function update(UpdateProductRequest $request, Product $product) {
+    public function update(UpdateProductRequest $request, Product $product)
+    {
         try {
             $validatedData = $request->validated();
 
@@ -96,7 +102,8 @@ class ProductController extends Controller
         }
     }
 
-    public function destroy(Product $product) {
+    public function destroy(Product $product)
+    {
         $product->delete();
 
         return redirect()->back();

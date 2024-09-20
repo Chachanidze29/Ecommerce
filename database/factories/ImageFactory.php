@@ -19,8 +19,11 @@ class ImageFactory extends Factory
      */
     public function definition(): array
     {
+        $type = ['Gallery', 'Thumbnail', 'Hover'][array_rand(['Gallery', 'Thumbnail', 'Hover'])];
+
         return [
             'path' => $this->faker->imageUrl(),
+            'type' => $type,
             'alt_text' => $this->faker->word(),
         ];
     }

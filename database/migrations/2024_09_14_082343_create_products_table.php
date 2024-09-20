@@ -16,7 +16,7 @@ return new class extends Migration
             $table->boolean('enabled');
             $table->string('sku')->unique();
             $table->string('name');
-            $table->string('description')->nullable();
+            $table->longText('description')->nullable();
             $table->float('price')->nullable();
             $table->timestamps();
         });

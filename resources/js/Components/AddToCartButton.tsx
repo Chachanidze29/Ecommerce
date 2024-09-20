@@ -3,7 +3,7 @@ import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { PageProps } from "@/types";
 import { CartItem } from "@/types/models";
-import { router, usePage } from "@inertiajs/react";
+import { router } from "@inertiajs/react";
 import { useLaravelReactI18n } from "laravel-react-i18n";
 import { MouseEventHandler, useState } from "react";
 

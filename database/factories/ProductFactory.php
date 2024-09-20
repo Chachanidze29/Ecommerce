@@ -18,7 +18,7 @@ class ProductFactory extends Factory
             'enabled' => true,
             'sku' => $this->faker->unique()->ean8(),
             'name' => $this->faker->word(),
-            'description' => $this->faker->sentence(),
+            'description' => $this->faker->sentence(100),
             'price' => $this->faker->randomFloat(2, 5, 100),
         ];
     }

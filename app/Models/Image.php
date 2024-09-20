@@ -10,7 +10,7 @@ class Image extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['path', 'alt_text'];
+    protected $fillable = ['path', 'alt_text', 'type'];
 
     public function product(): BelongsTo
     {

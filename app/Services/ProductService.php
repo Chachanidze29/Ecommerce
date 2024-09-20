@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Models\Product;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -15,11 +14,11 @@ class ProductService
             $product = Product::create($data);
             $product->categories()->sync($data['categories']);
 
-            if (isset($data['images']) && is_array($data['images'])) {
-                foreach ($data['images'] as $image) {
-                    $path = $image->store('products', 'public');
-                    $product->images()->create(['path' => $path]);
-                }
+            foreach ($data['images'] as $image) {
+                $file = $image['path'];
+                $path = $file->store('products', 'public');
+                $image['path'] = $path;
+                $product->images()->create($image);
             }
 
             return $product;
@@ -43,22 +42,16 @@ class ProductService
                 $newImages = [];
 
                 foreach ($data['images'] as $image) {
-                    if (is_file($image)) {
-                        $path = $image->store('products', 'public');
+                    $imgPath = $image['path'];
+                    if (is_file($imgPath)) {
+                        $path = $imgPath->store('products', 'public');
+                        $image['path'] = $path;
                         $newImagePaths[] = $path;
-                        $newImages[] = [
-                            'path' => $path,
-                            'alt_text' => $product->name
-                        ];
                     } else {
-                        $newImagePaths[] = $image;
-                        $newImages[] = [
-                            'path' => $image,
-                            'alt_text' => $product->name
-                        ];
+                        $newImagePaths[] = $imgPath;
                     }
+                    $newImages[] = $image;
                 }
-
                 $imagesToDelete = array_diff($existingImages, $newImagePaths);
 
                 foreach ($imagesToDelete as $oldImagePath) {

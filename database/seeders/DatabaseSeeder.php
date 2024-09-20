@@ -45,7 +45,7 @@ class DatabaseSeeder extends Seeder
                 $categories->random(rand(1, 5))->pluck('id')->toArray()
             );
 
-            Image::factory(rand(1, 3))->create([
+            Image::factory(rand(1, 2))->create([
                 'product_id' => $product->id,
             ]);
         });
