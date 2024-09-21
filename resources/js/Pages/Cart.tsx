@@ -76,7 +76,9 @@ export const Cart = ({ cart }: { cart: CartType }) => {
                                 Subtotal: {cart.subtotal}
                             </h2>
                             <Button variant="default">
-                                Proceed to Checkout
+                                <Link href={route("checkout")}>
+                                    Proceed to Checkout
+                                </Link>
                             </Button>
                             <Button
                                 variant="destructive"

@@ -3,6 +3,7 @@
 use App\Http\Controllers\CartItemController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ShoppingCartController;
 use Illuminate\Support\Facades\Route;
@@ -16,6 +17,7 @@ Route::get('/', function () {
 Route::get('/categories/{category:name}', [CategoryController::class, 'show'])->name('category');
 Route::get('/products/{product}', [ProductController::class, 'show'])->name('product.show');
 Route::get('/catalog', [CatalogController::class, 'index'])->name('catalog');
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
