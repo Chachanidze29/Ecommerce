@@ -21,15 +21,15 @@ const Catalog = ({
 
     const [filteredData, setFilteredData] = useState(data);
 
-    const handleFilterChange = useCallback((filters) => {
-        router.get("/catalog", filters, {
-            preserveState: true,
-            preserveScroll: true,
-            onSuccess: () => {
-                setFilteredData(data);
-            },
-        });
-    }, []);
+    // const handleFilterChange = useCallback((filters) => {
+    //     router.get("/catalog", filters, {
+    //         preserveState: true,
+    //         preserveScroll: true,
+    //         onSuccess: () => {
+    //             setFilteredData(data);
+    //         },
+    //     });
+    // }, []);
 
     useEffect(() => {
         setFilteredData(data);
@@ -42,7 +42,7 @@ const Catalog = ({
                 <div className="w-full lg:w-1/4">
                     <SideMenu
                         categories={catalogCategories}
-                        onFilterChange={handleFilterChange}
+                        // onFilterChange={handleFilterChange}
                     />
                 </div>
 

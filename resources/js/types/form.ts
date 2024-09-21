@@ -1,4 +1,4 @@
-import { Image } from "./models";
+import { Image, ImageType } from "./models";
 
 export enum FormType {
     Create,
@@ -20,7 +20,14 @@ export type ProductForm = {
     name: string;
     sku: string;
     description: string | null;
-    images?: Image[];
+    images?: (
+        | Image
+        | {
+              path: File;
+              alt_text: string;
+              type: ImageType;
+          }
+    )[];
     price: number | null;
     categories: number[];
 };

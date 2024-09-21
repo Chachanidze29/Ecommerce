@@ -7,11 +7,17 @@ import { router } from "@inertiajs/react";
 import { useLaravelReactI18n } from "laravel-react-i18n";
 import { MouseEventHandler, useState } from "react";
 
+type CartItemProp = {
+    id: number;
+    quantity: number;
+    price: number;
+};
+
 export const AddToCartButton = ({
     item,
     className,
 }: {
-    item: CartItem;
+    item: CartItemProp;
     className?: string;
 }) => {
     const { toast } = useToast();
@@ -31,10 +37,10 @@ export const AddToCartButton = ({
             },
             {
                 preserveScroll: true,
-                onSuccess: ({ props }: PageProps) => {
+                onSuccess: (page) => {
                     const {
                         flash: { success, error },
-                    } = props;
+                    } = page.props as unknown as PageProps;
                     toast({
                         title: t(error || success),
                         variant: error ? "destructive" : "default",
