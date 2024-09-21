@@ -17,6 +17,13 @@ const Navigation = ({ categories }: { categories: Category[] }) => {
 
     return (
         <NavigationMenu className="flex basis-4/12 items-end justify-end">
+            <NavigationMenuLink
+                asChild
+                className={navigationMenuTriggerStyle()}
+                active={route().current("catalog")}
+            >
+                <Link href={route("catalog")}>{t("Catalog")}</Link>
+            </NavigationMenuLink>
             <NavigationMenuList>
                 {categories.map((category) =>
                     category.sub_categories &&
@@ -34,17 +41,25 @@ const Navigation = ({ categories }: { categories: Category[] }) => {
                                 <ul className="grid w-[400px] gap-3 p-4">
                                     {category.sub_categories.map(
                                         (subCategory) => (
-                                            <Link
-                                                href={route(
+                                            <NavigationMenuLink
+                                                active={route().current(
                                                     "category",
                                                     subCategory.name
                                                 )}
                                                 key={subCategory.id}
                                             >
-                                                <ListItem>
-                                                    {t(subCategory.name)}
-                                                </ListItem>
-                                            </Link>
+                                                <Link
+                                                    href={route(
+                                                        "category",
+                                                        subCategory.name
+                                                    )}
+                                                    key={subCategory.id}
+                                                >
+                                                    <ListItem>
+                                                        {t(subCategory.name)}
+                                                    </ListItem>
+                                                </Link>
+                                            </NavigationMenuLink>
                                         )
                                     )}
                                 </ul>

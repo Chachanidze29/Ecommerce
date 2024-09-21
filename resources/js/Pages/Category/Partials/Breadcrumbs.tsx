@@ -22,7 +22,7 @@ const CategoryBreadCrumbs = ({ category }: { category: Category }) => {
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
-                    <Link href={route("home")}>
+                    <Link href={route("catalog")}>
                         <BreadcrumbLink>Catalog</BreadcrumbLink>
                     </Link>
                 </BreadcrumbItem>

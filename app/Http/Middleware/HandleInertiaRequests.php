@@ -2,15 +2,16 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Category;
 use App\Services\CartService;
+use App\Services\CategoryService;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
 {
     public function __construct(
-        protected CartService $cartService
+        protected CartService $cartService,
+        protected CategoryService $categoryService
     )
     {
     }
@@ -52,7 +53,7 @@ class HandleInertiaRequests extends Middleware
                 'success' => fn () => $request->session()->get('success'),
                 'error' => fn () => $request->session()->get('error'),
             ],
-            'categories' => Category::with(['subCategories', 'parentCategory'])->whereNull('parent_id')->get(),
+            'categories' => $this->categoryService->getParentCategories(),
             'cart' => $this->cartService->getOrCreateCart()
         ];
     }

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cart;
 use App\Providers\AppServiceProvider;
 use App\Services\CartService;
 use Exception;
@@ -16,7 +15,7 @@ class ShoppingCartController extends Controller
         protected CartService $cartService
     ) {}
 
-    public function show(Cart $cart) {
+    public function show() {
         return Inertia::render('Cart', [
             'cart' => $this->cartService->getOrCreateCart()
         ]);
@@ -50,8 +49,9 @@ class ShoppingCartController extends Controller
         }
     }
 
-    public function destroy(Request $request, Cart $cart) {
+    public function destroy() {
         try {
+            $cart = $this->cartService->getOrCreateCart();
             $this->cartService->clearCart($cart);
         } catch (Exception $e) {
             Log::error($e->getMessage());

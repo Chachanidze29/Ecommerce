@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CartItemController;
+use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ShoppingCartController;
@@ -14,6 +15,7 @@ Route::get('/', function () {
 
 Route::get('/categories/{category:name}', [CategoryController::class, 'show'])->name('category');
 Route::get('/products/{product}', [ProductController::class, 'show'])->name('product.show');
+Route::get('/catalog', [CatalogController::class, 'index'])->name('catalog');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -23,7 +25,7 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/cart', [ShoppingCartController::class, 'show'])->name('cart');
 Route::post('/cart', [ShoppingCartController::class, 'create'])->name('cart.create');
-Route::delete('/cart/{cart}', [ShoppingCartController::class, 'destroy'])->name('cart.destroy');
+Route::delete('/cart', [ShoppingCartController::class, 'destroy'])->name('cart.destroy');
 
 Route::patch('/cart/item/{cartItem}/increment', [CartItemController::class, 'increment'])->name('cart.item.increment');
 Route::patch('/cart/item/{cartItem}/decrement', [CartItemController::class, 'decrement'])->name('cart.item.decrement');

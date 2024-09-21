@@ -3,11 +3,22 @@
 namespace App\Services;
 
 use App\Models\Product;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class ProductService
 {
+    public function getAllProductsWithPagination(): LengthAwarePaginator
+    {
+        return Product::with([
+            'images' => function ($query) {
+                $query->whereIn('type', ['Thumbnail', 'Hover']);
+            },
+            'categories'
+        ])->orderBy('created_at', 'desc')->paginate(28);
+    }
+
     public function create(array $data): Product
     {
         return DB::transaction(function () use ($data) {

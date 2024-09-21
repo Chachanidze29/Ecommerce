@@ -8,7 +8,7 @@ import ItemQtyButtons from "@/Components/ItemQtyButtons";
 export const Cart = ({ cart }: { cart: CartType }) => {
     const handleClearCart: MouseEventHandler = (e) => {
         e.preventDefault();
-        router.delete(route("cart.destroy", cart.id));
+        router.delete(route("cart.destroy"));
     };
 
     const handleIncrement = (itemId: number) => {

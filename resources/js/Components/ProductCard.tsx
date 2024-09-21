@@ -20,7 +20,7 @@ export default function ProductCard({ product }: { product: Product }) {
     return (
         <Link href={route("product.show", product)}>
             <div className="border flex flex-col justify-between rounded-lg p-4 shadow-md transform transition-transform duration-300 hover:scale-105 relative overflow-hidden group">
-                <div className="relative overflow-hidden">
+                <div className="relative overflow-hidden max-h-96">
                     {thumbnail && (
                         <img
                             src={"/storage/" + thumbnail.path}

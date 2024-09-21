@@ -18,8 +18,8 @@ Route::prefix('admin')
         ->name('products.massDelete');
 
     Route::resource('categories', CategoryController::class);
-        Route::post('categories/massDelete', [CategoryController::class, 'massDestroy'])
-            ->name('categories.massDelete');
+    Route::post('categories/massDelete', [CategoryController::class, 'massDestroy'])
+        ->name('categories.massDelete');
 
     Route::get('/content/home', [ContentController::class, 'home'])->name('content.home');
     Route::get('/content/plp', [ContentController::class, 'plp'])->name('content.plp');

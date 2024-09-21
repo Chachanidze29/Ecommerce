@@ -1,4 +1,4 @@
-import { Cart, Category, User } from "@/types/models";
+import { Cart, Category, Product, User } from "@/types/models";
 
 export type PageProps<
     T extends Record<string, unknown> = Record<string, unknown>
@@ -24,3 +24,20 @@ export type SelectOption = {
     id: number;
     name: string;
 };
+
+export interface Pagination {
+    data: Product[];
+    links: PaginationLink[];
+    current_page: number;
+    from: number;
+    last_page: number;
+    per_page: number;
+    to: number;
+    total: number;
+}
+
+export interface PaginationLink {
+    url: string | null;
+    label: string;
+    active: boolean;
+}

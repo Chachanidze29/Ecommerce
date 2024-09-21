@@ -3,11 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\CartItem;
-use Illuminate\Http\Request;
 
 class CartItemController extends Controller
 {
-    public function increment(Request $request, CartItem $cartItem)
+    public function increment(CartItem $cartItem)
     {
         $cartItem->quantity += 1;
         $cartItem->save();
@@ -15,7 +14,7 @@ class CartItemController extends Controller
         return redirect()->back()->with('success', 'Item quantity increased.');
     }
 
-    public function decrement(Request $request, CartItem $cartItem)
+    public function decrement(CartItem $cartItem)
     {
         if ($cartItem->quantity > 1) {
             $cartItem->quantity -= 1;
@@ -27,7 +26,7 @@ class CartItemController extends Controller
         return redirect()->back()->with('success', 'Item quantity decreased.');
     }
 
-    public function destroy(Request $request, CartItem $cartItem)
+    public function destroy(CartItem $cartItem)
     {
         $cartItem->delete();
 

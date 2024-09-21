@@ -89,6 +89,7 @@ export function DataTable<TData extends { id?: number }, TValue>({
         const ids = table
             .getSelectedRowModel()
             .rows.map((obj) => obj.original.id);
+        console.log("aAAAAA", ids);
 
         router.post(route(massDeleteRoute!), { ids });
         table.resetRowSelection();
