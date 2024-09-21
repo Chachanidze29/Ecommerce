@@ -11,6 +11,7 @@ class CategoryService
     public function getCategoryByName(string $categoryName)
     {
         return Category::where('name', $categoryName)
+            ->with('subCategories')
             ->firstOrFail();
     }
 
