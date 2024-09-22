@@ -6,7 +6,7 @@ import {
     AccordionContent,
 } from "@/Components/ui/accordion";
 import { Cart } from "@/types/models";
-import { Head, router, useForm } from "@inertiajs/react";
+import { Head, useForm } from "@inertiajs/react";
 import { useLaravelReactI18n } from "laravel-react-i18n";
 import ShippingMethod from "./Partials/ShippingMethod";
 import BillingMethod from "./Partials/BillingMethod";
@@ -16,8 +16,8 @@ import { Button } from "@/Components/ui/button";
 import { Switch } from "@/Components/ui/switch";
 import InputLabel from "@/Components/InputLabel";
 import { CartInformation } from "./Partials/CartInformation";
-import H1 from "@/Components/Typography/H1";
-import { SkipBackIcon, StepBack, StepBackIcon } from "lucide-react";
+import { StepBack } from "lucide-react";
+import PaymentMethod from "./Partials/PaymentMethod";
 
 export type CheckoutData = {
     email: string;
@@ -28,6 +28,7 @@ export type CheckoutData = {
     shipping_zip_code: number;
     shipping_city: string;
     shipping_address: string;
+    billing_same: boolean;
     billing_first_name?: string;
     billing_last_name?: string;
     billing_phone_number?: string;
@@ -38,6 +39,11 @@ export type CheckoutData = {
 };
 
 export type CheckoutFormErrors = Partial<Record<keyof CheckoutData, string>>;
+
+enum AccordionTypes {
+    ShippingMethod = "shipping_method",
+    PaymentMethod = "payment_method",
+}
 
 export default function Index({ cart }: { cart: Cart }) {
     const { data, setData, post, processing, errors, reset } =
@@ -50,6 +56,7 @@ export default function Index({ cart }: { cart: Cart }) {
             shipping_zip_code: 0,
             shipping_city: "",
             shipping_address: "",
+            billing_same: true,
             billing_first_name: "",
             billing_last_name: "",
             billing_phone_number: "",
@@ -59,24 +66,24 @@ export default function Index({ cart }: { cart: Cart }) {
             billing_address: "",
         });
 
-    const [activeAccordion, setActiveAccordion] =
-        useState<string>("shipping_method");
-    const [isBillingSame, setIsBillingSame] = useState<boolean>(true);
+    const [activeAccordion, setActiveAccordion] = useState<AccordionTypes>(
+        AccordionTypes.ShippingMethod
+    );
 
     const { t } = useLaravelReactI18n();
 
     const handleContinueToPayment = () => {
-        setActiveAccordion("payment_method");
-    };
-
-    const handleCheckboxChange = (value: boolean) => {
-        setIsBillingSame(value);
+        post(route("checkout.shipping"), {
+            onSuccess: () => {
+                setActiveAccordion(AccordionTypes.PaymentMethod);
+            },
+        });
     };
 
     return (
         <main>
             <Head title="Checkout" />
-            <div className="flex justify-center bg-gray-200">
+            <div className="flex justify-center bg-gray-200 min-h-screen">
                 <div className="basis-1/3 bg-white p-2">
                     <StepBack
                         className="m-2 cursor-pointer"
@@ -99,10 +106,14 @@ export default function Index({ cart }: { cart: Cart }) {
                         <Accordion
                             type="single"
                             value={activeAccordion}
-                            onValueChange={(value) => setActiveAccordion(value)}
+                            onValueChange={(value) =>
+                                setActiveAccordion(value as AccordionTypes)
+                            }
                             collapsible
                         >
-                            <AccordionItem value="shipping_method">
+                            <AccordionItem
+                                value={AccordionTypes.ShippingMethod}
+                            >
                                 <AccordionTrigger>
                                     <H3>{t("Shipping Information")}</H3>
                                 </AccordionTrigger>
@@ -119,14 +130,14 @@ export default function Index({ cart }: { cart: Cart }) {
                                             )}
                                         />
                                         <Switch
-                                            checked={isBillingSame}
+                                            checked={data.billing_same}
                                             onCheckedChange={(value) =>
-                                                handleCheckboxChange(value)
+                                                setData("billing_same", value)
                                             }
                                         />
                                     </div>
 
-                                    {!isBillingSame && (
+                                    {!data.billing_same && (
                                         <BillingMethod
                                             data={data}
                                             setData={setData}
@@ -138,17 +149,21 @@ export default function Index({ cart }: { cart: Cart }) {
                                         type="button"
                                         onClick={handleContinueToPayment}
                                         className="mt-4"
+                                        disabled={processing}
                                     >
                                         {t("Continue to Payment")}
                                     </Button>
                                 </AccordionContent>
                             </AccordionItem>
-                            <AccordionItem value="payment_method">
-                                <AccordionTrigger>
+                            <AccordionItem value={AccordionTypes.PaymentMethod}>
+                                <AccordionTrigger
+                                    className="cursor-pointer"
+                                    disabled={true}
+                                >
                                     <H3>{t("Payment Method")}</H3>
                                 </AccordionTrigger>
                                 <AccordionContent>
-                                    <p>{t("Payment details go here...")}</p>
+                                    <PaymentMethod data={data} />
                                 </AccordionContent>
                             </AccordionItem>
                         </Accordion>

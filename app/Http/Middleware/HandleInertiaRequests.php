@@ -54,7 +54,10 @@ class HandleInertiaRequests extends Middleware
                 'error' => fn () => $request->session()->get('error'),
             ],
             'categories' => $this->categoryService->getParentCategories(),
-            'cart' => $this->cartService->getOrCreateCart()
+            'cart' => $this->cartService->getOrCreateCart(),
+            'config' => [
+                'stripe_key' => getenv('STRIPE_KEY')
+            ]
         ];
     }
 }

@@ -18,6 +18,8 @@ Route::get('/categories/{category:name}', [CategoryController::class, 'show'])->
 Route::get('/products/{product}', [ProductController::class, 'show'])->name('product.show');
 Route::get('/catalog', [CatalogController::class, 'index'])->name('catalog');
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
+Route::post('/checkout/shipping', [CheckoutController::class, 'validateShippingInformation'])->name('checkout.shipping');
+Route::post('/checkout', [CheckoutController::class, 'processPayment'])->name('checkout.process');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

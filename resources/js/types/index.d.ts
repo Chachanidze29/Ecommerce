@@ -12,6 +12,9 @@ export type PageProps<
         error: string;
     };
     cart: Cart;
+    config: {
+        stripe_key: string;
+    };
 };
 
 export type MenuItem = {

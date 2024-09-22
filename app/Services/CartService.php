@@ -10,12 +10,12 @@ class CartService
     public function getOrCreateCart()
     {
         if (auth()->check()) {
-            $cart = Cart::with(['customer', 'items', 'items.product'])
+            $cart = Cart::with(['customer', 'items', 'items.product', 'items.product.images'])
                 ->withSum('items', 'quantity')
                 ->firstOrCreate(['user_id' => auth()->id()]);
         } else {
             $sessionId = session()->getId();
-            $cart = Cart::with('items', 'items.product')
+            $cart = Cart::with('items', 'items.product', 'items.product.images')
                 ->withSum('items', 'quantity')
                 ->firstOrCreate(['session_id' => $sessionId]);
         }
