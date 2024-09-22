@@ -10,12 +10,9 @@ import { useLaravelReactI18n } from "laravel-react-i18n";
 import { loadStripe } from "@stripe/stripe-js";
 import { router, usePage } from "@inertiajs/react";
 import { PageProps } from "@/types";
+import { PaymentMethodData } from "../Index";
 
-interface PaymentMethodProps {
-    data: any;
-}
-
-const PaymentForm = ({ data }: PaymentMethodProps) => {
+const PaymentForm = ({ data }: { data: PaymentMethodData }) => {
     const { t } = useLaravelReactI18n();
     const stripe = useStripe();
     const elements = useElements();
@@ -39,16 +36,17 @@ const PaymentForm = ({ data }: PaymentMethodProps) => {
         }
 
         const { error, paymentMethod } = await stripe.createPaymentMethod({
-            type: "card",
             card: cardElement,
+            type: "card",
             billing_details: {
-                name: `${data.billing_first_name} ${data.billing_last_name}`,
+                name: `${data.first_name} ${data.last_name}`,
                 email: data.email,
+                phone: data.phone_number,
                 address: {
-                    line1: data.billing_address,
-                    city: data.billing_city,
-                    postal_code: data.billing_zip_code,
-                    country: data.billing_country,
+                    line1: data.address,
+                    city: data.city,
+                    postal_code: data.zip_code,
+                    country: data.country,
                 },
             },
         });
@@ -87,7 +85,7 @@ const PaymentForm = ({ data }: PaymentMethodProps) => {
     );
 };
 
-export const PaymentMethod = (props: PaymentMethodProps) => {
+export const PaymentMethod = ({ data }: { data: PaymentMethodData }) => {
     const {
         config: { stripe_key },
     } = usePage<PageProps>().props;
@@ -96,7 +94,7 @@ export const PaymentMethod = (props: PaymentMethodProps) => {
 
     return (
         <Elements stripe={stripePromise}>
-            <PaymentForm {...props} />
+            <PaymentForm data={data} />
         </Elements>
     );
 };

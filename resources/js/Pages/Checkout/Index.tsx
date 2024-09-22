@@ -21,24 +21,32 @@ import PaymentMethod from "./Partials/PaymentMethod";
 
 export type CheckoutData = {
     email: string;
-    shipping_first_name: string;
-    shipping_last_name: string;
-    shipping_phone_number: string;
-    shipping_country: string;
-    shipping_zip_code: number;
-    shipping_city: string;
-    shipping_address: string;
     billing_same: boolean;
-    billing_first_name?: string;
-    billing_last_name?: string;
-    billing_phone_number?: string;
-    billing_country?: string;
-    billing_zip_code?: number;
-    billing_city?: string;
-    billing_address?: string;
+    shipping: ShippingAndBillingData;
+    billing: ShippingAndBillingData;
 };
 
-export type CheckoutFormErrors = Partial<Record<keyof CheckoutData, string>>;
+export type ShippingAndBillingData = {
+    first_name: string;
+    last_name: string;
+    phone_number: string;
+    country: string;
+    zip_code: string;
+    city: string;
+    address: string;
+};
+
+export type PaymentMethodData = ShippingAndBillingData & { email: string };
+
+export type ShippingAndBillingFormErrors = Partial<
+    Record<keyof ShippingAndBillingData, string>
+>;
+
+export type ShippingAndBillingMethodProps = {
+    data: ShippingAndBillingData;
+    setData: (key: keyof ShippingAndBillingData, value: string) => void;
+    errors: ShippingAndBillingFormErrors;
+};
 
 enum AccordionTypes {
     ShippingMethod = "shipping_method",
@@ -46,31 +54,72 @@ enum AccordionTypes {
 }
 
 export default function Index({ cart }: { cart: Cart }) {
-    const { data, setData, post, processing, errors, reset } =
-        useForm<CheckoutData>({
-            email: "",
-            shipping_first_name: "",
-            shipping_last_name: "",
-            shipping_phone_number: "",
-            shipping_country: "",
-            shipping_zip_code: 0,
-            shipping_city: "",
-            shipping_address: "",
-            billing_same: true,
-            billing_first_name: "",
-            billing_last_name: "",
-            billing_phone_number: "",
-            billing_country: "",
-            billing_zip_code: 0,
-            billing_city: "",
-            billing_address: "",
+    const { t } = useLaravelReactI18n();
+
+    const { data, setData, post, processing, errors } = useForm<CheckoutData>({
+        email: "",
+        billing_same: true,
+        shipping: {
+            first_name: "",
+            last_name: "",
+            phone_number: "",
+            country: "",
+            zip_code: "",
+            city: "",
+            address: "",
+        },
+        billing: {
+            first_name: "",
+            last_name: "",
+            phone_number: "",
+            country: "",
+            zip_code: "",
+            city: "",
+            address: "",
+        },
+    });
+
+    const setShippingData = (
+        name: keyof ShippingAndBillingData,
+        value: string
+    ) => {
+        setData("shipping", {
+            ...data.shipping,
+            [name]: value,
         });
+    };
+
+    const setBillingData = (
+        name: keyof ShippingAndBillingData,
+        value: string
+    ) => {
+        setData("billing", {
+            ...data.billing,
+            [name]: value,
+        });
+    };
+
+    const billingErrors: ShippingAndBillingFormErrors = {};
+    const shippingErrors: ShippingAndBillingFormErrors = {};
+    Object.entries(errors).forEach(([key, message]) => {
+        if (key.startsWith("billing.")) {
+            const billingKey = key.replace(
+                "billing.",
+                ""
+            ) as keyof ShippingAndBillingData;
+            billingErrors[billingKey] = message;
+        } else if (key.startsWith("shipping.")) {
+            const shippingKey = key.replace(
+                "shipping.",
+                ""
+            ) as keyof ShippingAndBillingData;
+            shippingErrors[shippingKey] = message;
+        }
+    });
 
     const [activeAccordion, setActiveAccordion] = useState<AccordionTypes>(
         AccordionTypes.ShippingMethod
     );
-
-    const { t } = useLaravelReactI18n();
 
     const handleContinueToPayment = () => {
         post(route("checkout.shipping"), {
@@ -119,9 +168,9 @@ export default function Index({ cart }: { cart: Cart }) {
                                 </AccordionTrigger>
                                 <AccordionContent>
                                     <ShippingMethod
-                                        data={data}
-                                        setData={setData}
-                                        errors={errors}
+                                        data={data.shipping}
+                                        setData={setShippingData}
+                                        errors={shippingErrors}
                                     />
                                     <div className="flex m-2 gap-2 items-center">
                                         <InputLabel
@@ -139,9 +188,9 @@ export default function Index({ cart }: { cart: Cart }) {
 
                                     {!data.billing_same && (
                                         <BillingMethod
-                                            data={data}
-                                            setData={setData}
-                                            errors={errors}
+                                            data={data.billing}
+                                            setData={setBillingData}
+                                            errors={billingErrors}
                                         />
                                     )}
 
@@ -163,7 +212,12 @@ export default function Index({ cart }: { cart: Cart }) {
                                     <H3>{t("Payment Method")}</H3>
                                 </AccordionTrigger>
                                 <AccordionContent>
-                                    <PaymentMethod data={data} />
+                                    <PaymentMethod
+                                        data={{
+                                            email: data.email,
+                                            ...data.billing,
+                                        }}
+                                    />
                                 </AccordionContent>
                             </AccordionItem>
                         </Accordion>
